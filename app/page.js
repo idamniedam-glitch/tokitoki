@@ -276,28 +276,45 @@ export default function TokitokiPrototype() {
 
   return (
     <div className="min-h-screen bg-stone-50 text-zinc-950">
-      <header className="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-stone-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-900 text-white shadow-sm">
-              <Shovel size={24} />
-            </div>
+          <button
+            type="button"
+            onClick={() => goToStep(1)}
+            className="flex items-center gap-3 text-left"
+          >
+            <LogoMark />
             <div>
-              <div className="text-2xl font-black tracking-tight">TOKITOKI</div>
-              <div className="text-xs font-bold uppercase tracking-wide text-zinc-500">
+              <div className="text-2xl font-black leading-none tracking-tight">
+                TOKITOKI
+              </div>
+              <div className="mt-1 text-[10px] font-black uppercase tracking-wide text-zinc-700">
                 Kruszywa z dostawą
               </div>
             </div>
-          </div>
+          </button>
 
-          <nav className="hidden items-center gap-8 text-sm font-semibold md:flex">
-            <a href="#zamowienie">Zamówienie</a>
-            <a href="#kalkulator">Kalkulator</a>
-            <a href="#kontakt">Kontakt</a>
+          <nav className="hidden items-center gap-8 text-sm font-bold md:flex">
+            <a href="#zamowienie" className="hover:text-emerald-800">
+              Strona główna
+            </a>
+            <button
+              type="button"
+              onClick={() => goToStep(1)}
+              className="hover:text-emerald-800"
+            >
+              Kruszywa
+            </button>
+            <a href="#kalkulator" className="hover:text-emerald-800">
+              Kalkulator
+            </a>
+            <a href="#kontakt" className="hover:text-emerald-800">
+              Kontakt
+            </a>
           </nav>
 
           <a
-            className="inline-flex items-center gap-2 rounded-xl border border-emerald-700 px-4 py-2 text-sm font-bold text-emerald-800"
+            className="inline-flex items-center gap-2 rounded-xl border border-emerald-700 px-4 py-2 text-sm font-black text-emerald-800"
             href="tel:+48123456789"
           >
             <Phone size={16} /> +48 123 456 789
@@ -305,59 +322,71 @@ export default function TokitokiPrototype() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-white">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-2 lg:px-8 lg:py-20">
+      <section className="relative overflow-hidden border-b border-stone-200 bg-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/10" />
+
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-20">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col justify-center"
+            className="relative z-10 flex flex-col justify-center"
           >
-            <p className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">
-              <MapPin size={16} /> Rzeszów i okolice
-            </p>
-
-            <h1 className="max-w-2xl text-5xl font-black leading-tight tracking-tight md:text-6xl">
+            <h1 className="max-w-2xl text-4xl font-black leading-tight tracking-tight md:text-6xl">
               Kruszywa z dostawą{" "}
-              <span className="text-emerald-800">bez ukrytych kosztów</span>
+              <span className="block text-emerald-800">
+                w Rzeszowie i okolicach
+              </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-600">
-              Wybierz kruszywo, wpisz ilość, zaznacz miejsce dostawy i wyślij
-              szybkie zamówienie do potwierdzenia telefonicznego.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-700">
+              Szeroki wybór kruszyw budowlanych i ozdobnych z szybką dostawą
+              pod wskazany adres.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={() => goToStep(1)}
-                className="rounded-2xl bg-emerald-800 px-6 py-4 font-bold text-white shadow-lg shadow-emerald-900/15"
+                className="inline-flex items-center gap-3 rounded-2xl bg-emerald-800 px-6 py-4 font-black text-white shadow-lg shadow-emerald-900/15"
               >
-                Zamów kruszywo
+                Zamów kruszywo <ArrowRight size={18} />
               </button>
 
               <a
                 href={`https://wa.me/48123456789?text=${whatsappText}`}
-                className="rounded-2xl border border-emerald-800 px-6 py-4 font-bold text-emerald-900"
+                className="inline-flex items-center gap-2 rounded-2xl border border-emerald-800 px-6 py-4 font-black text-emerald-900"
               >
-                Napisz na WhatsApp
+                Skontaktuj się <Phone size={17} />
               </a>
+            </div>
+
+            <div className="mt-10 grid gap-4 text-sm sm:grid-cols-3">
+              <TrustBadge
+                icon={<MapPin size={24} />}
+                title="Lokalna firma"
+                text="z Rzeszowa"
+              />
+              <TrustBadge
+                icon={<CheckCircle2 size={24} />}
+                title="Uczciwe ceny"
+                text="bez ukrytych kosztów"
+              />
+              <TrustBadge
+                icon={<Truck size={24} />}
+                title="Szybka dostawa"
+                text="na terenie miasta"
+              />
             </div>
           </motion.div>
 
-          <div className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-stone-200 shadow-2xl shadow-stone-300">
+          <div className="relative z-0 min-h-[300px] overflow-hidden rounded-[2rem] bg-stone-100 shadow-2xl shadow-stone-300 lg:min-h-[440px] lg:rounded-none lg:shadow-none">
             <img
               className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1400&auto=format&fit=crop"
-              alt="Kruszywo i dostawa"
+              src="/hero-taczki-rzeszow.png"
+              alt="Taczka z kamieniem na tle Rzeszowa"
             />
-
-            <div className="absolute bottom-5 left-5 rounded-2xl bg-white/90 p-4 shadow-xl backdrop-blur">
-              <div className="flex items-center gap-3 font-black">
-                <Truck className="text-emerald-800" /> Lokalna dostawa
-              </div>
-              <p className="mt-1 text-sm text-zinc-600">Rzeszów i okolice</p>
-            </div>
+            <div className="absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-white to-transparent lg:block" />
           </div>
         </div>
       </section>
@@ -1215,6 +1244,64 @@ export default function TokitokiPrototype() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function LogoMark() {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center">
+      <svg
+        viewBox="0 0 64 64"
+        className="h-12 w-12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M14 26h34l-5 17H21L14 26Z"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinejoin="round"
+          className="text-zinc-950"
+        />
+        <path
+          d="M48 29l9-7M17 43l-8 8M41 43l9 8"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          className="text-zinc-950"
+        />
+        <circle cx="27" cy="51" r="5" stroke="currentColor" strokeWidth="4" className="text-zinc-950" />
+        <path
+          d="M25 23c3-8 9-13 17-15 0 8-4 14-12 18"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-emerald-800"
+        />
+        <path
+          d="M31 20c-4-5-9-7-15-7 1 7 5 11 12 13"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-emerald-800"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function TrustBadge({ icon, title, text }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="text-emerald-800">{icon}</div>
+      <div>
+        <div className="font-black text-zinc-950">{title}</div>
+        <div className="text-zinc-600">{text}</div>
+      </div>
     </div>
   );
 }
