@@ -453,17 +453,14 @@ export default function TokitokiPrototype() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ee] pb-28 text-zinc-950 lg:pb-0">
+    <div className="min-h-screen bg-[#f7f4ee] pb-28 text-zinc-950 lg:pb-0 [&_a]:cursor-pointer [&_button]:cursor-pointer">
       <Header goToStep={goToStep} whatsappText={whatsappText} />
 
       <section className="relative overflow-hidden bg-gradient-to-br from-white via-stone-50 to-emerald-50/60">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-7 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-16">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="flex flex-col justify-center">
-            <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
-              Ponad 200 dostaw w regionie rocznie
-            </div>
             <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-stone-100 px-4 py-2 text-xs font-bold text-zinc-700">
-              Ponad 200 dostaw w regionie
+              Ponad 200 dostaw w Rzeszowie i regionie rocznie
             </div>
 
             <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
@@ -482,11 +479,12 @@ export default function TokitokiPrototype() {
             </p>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
-              Wybierz materiał, podaj ilość i adres. Oddzwonimy tylko po potwierdzenie terminu, dostępności i transportu.
+              Wybierz materiał, podaj ilość i adres.
+              Ładujemy towar na taczki i jedźiemy :) ! 
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
-              <button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); goToStep(1); }} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900">
+              <button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }) }} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900">
                 Wybierz kruszywo <ArrowRight size={20} />
               </button>
               <a href={`https://wa.me/${PHONE.replace("+", "")}?text=${whatsappText}`} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl border-2 border-emerald-800 bg-white px-7 py-4 text-base font-black text-emerald-900 transition hover:bg-emerald-50">
