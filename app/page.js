@@ -484,9 +484,13 @@ export default function TokitokiPrototype() {
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
-              <button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }) }} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900">
-                Wybierz kruszywo <ArrowRight size={20} />
-              </button>
+              <button
+  type="button"
+  onClick={() => goToStep(1)}
+  className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900"
+>
+  Wybierz kruszywo <ArrowRight size={20} />
+</button>
               <a href={`https://wa.me/${PHONE.replace("+", "")}?text=${whatsappText}`} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl border-2 border-emerald-800 bg-white px-7 py-4 text-base font-black text-emerald-900 transition hover:bg-emerald-50">
                 Zapytaj na WhatsApp <MessageCircle size={20} />
               </a>
@@ -673,7 +677,13 @@ function Header({ goToStep, whatsappText }) {
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
-        <button type="button" onClick={() => goToStep(1)} className="flex items-center gap-3 text-left">
+        <button
+          type="button"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="flex items-center gap-3 text-left"
+        >
           <LogoMark />
           <div><div className="text-xl font-black leading-none tracking-tight sm:text-2xl">TOKITOKI</div><div className="mt-1 text-[10px] font-black uppercase tracking-wide text-zinc-600">Kruszywa z dostawą</div></div>
         </button>
