@@ -47,7 +47,7 @@ const deliveryZones = [
 
 const products = [
   // KRUSZYWA BUDOWLANE — PIASEK
-  {
+    {
     id: "piasek-do-piaskownic",
     type: "build",
     subcategory: "Piasek",
@@ -55,9 +55,8 @@ const products = [
     priceNet: 80,
     unit: "t",
     description:
-      "Drobny, jasny piasek do piaskownic, placów zabaw i rekreacyjnych przestrzeni przy domu.",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=900&auto=format&fit=crop",
+      "Jasny, drobny piasek do piaskownic, placów zabaw i przestrzeni rekreacyjnych przy domu. Dostawa na terenie Rzeszowa i okolic.",
+    image: "/produkty/piasek-do-piaskownic.jpg",
   },
   {
     id: "piasek-zasypowy",
@@ -67,9 +66,8 @@ const products = [
     priceNet: 70,
     unit: "t",
     description:
-      "Do zasypywania wykopów, wyrównywania terenu, fundamentów i prac ziemnych.",
-    image:
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=900&auto=format&fit=crop",
+      "Piasek do zasypywania wykopów, wyrównywania terenu, fundamentów i prac ziemnych. Dostępny z transportem w Rzeszowie i okolicach.",
+    image: "/produkty/piasek-zasypowy.jpg",
   },
   {
     id: "piasek-plukany-0-2",
@@ -79,9 +77,8 @@ const products = [
     priceNet: 80,
     unit: "t",
     description:
-      "Czysty piasek płukany do betonu, zapraw, wylewek i prac budowlanych.",
-    image:
-      "https://images.unsplash.com/photo-1605366344364-8f6f0108d891?q=80&w=900&auto=format&fit=crop",
+      "Czysty piasek płukany do betonu, zapraw, wylewek i prac budowlanych. Popularny wybór na budowę i remont.",
+    image: "/produkty/piasek-plukany-0-2.jpg",
   },
   {
     id: "piasek-do-tynkow-0-1",
@@ -91,12 +88,9 @@ const products = [
     priceNet: 85,
     unit: "t",
     description:
-      "Drobna frakcja do tynków, zapraw murarskich i prac wykończeniowych wymagających gładkiej struktury.",
-    image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+      "Drobny piasek do tynków, zapraw murarskich i prac wykończeniowych wymagających równej, drobnej frakcji.",
+    image: "/produkty/piasek-do-tynkow-0-1.jpg",
   },
-
-  // KRUSZYWA BUDOWLANE — ŻWIR
   {
     id: "zwir-2-8",
     type: "build",
@@ -105,9 +99,8 @@ const products = [
     priceNet: 95,
     unit: "t",
     description:
-      "Drobny żwir do betonu, drenaży, podsypek i prac ogrodowo-budowlanych.",
-    image:
-      "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
+      "Drobny żwir do betonu, drenaży, podsypek oraz prac ogrodowo-budowlanych. Dostawa Rzeszów i okolice.",
+    image: "/produkty/zwir-2-8.jpg",
   },
   {
     id: "zwir-8-16",
@@ -117,9 +110,8 @@ const products = [
     priceNet: 100,
     unit: "t",
     description:
-      "Uniwersalny żwir do betonu, drenaży, opasek wokół budynków i utwardzeń.",
-    image:
-      "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
+      "Uniwersalny żwir do betonu, drenażu, opasek wokół budynków, podjazdów i prac przy domu.",
+    image: "/produkty/zwir-8-16.jpg",
   },
   {
     id: "zwir-16-32",
@@ -129,12 +121,9 @@ const products = [
     priceNet: 105,
     unit: "t",
     description:
-      "Grubszy żwir do drenażu, odwodnień, warstw filtracyjnych i prac wokół domu.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+      "Grubszy żwir do drenaży, odwodnień, warstw filtracyjnych i prac ziemnych wokół budynków.",
+    image: "/produkty/zwir-16-32.jpg",
   },
-
-  // KRUSZYWA BUDOWLANE — GRYS
   {
     id: "grys-2-8",
     type: "build",
@@ -143,9 +132,8 @@ const products = [
     priceNet: 110,
     unit: "t",
     description:
-      "Drobny grys do utwardzeń, podjazdów, ścieżek, drenażu i prac wykończeniowych.",
-    image:
-      "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
+      "Drobny grys do utwardzeń, podjazdów, ścieżek, drenażu i prac wykończeniowych. Kruszywo z dostawą w Rzeszowie.",
+    image: "/produkty/grys-2-8.jpg",
   },
   {
     id: "grys-8-16",
@@ -155,12 +143,9 @@ const products = [
     priceNet: 115,
     unit: "t",
     description:
-      "Popularna frakcja do podjazdów, ścieżek, opasek przy budynkach i ogrodu.",
-    image:
-      "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
+      "Popularna frakcja grysu do podjazdów, ścieżek, opasek przy budynkach, utwardzeń i prac ogrodowych.",
+    image: "/produkty/grys-8-16.jpg",
   },
-
-  // KRUSZYWA BUDOWLANE — TŁUCZEŃ I KLINIEC
   {
     id: "tluczen-32-63",
     type: "build",
@@ -169,9 +154,8 @@ const products = [
     priceNet: 95,
     unit: "t",
     description:
-      "Grube kruszywo do mocnych podbudów, dróg dojazdowych, placów i utwardzania terenu.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+      "Grube kruszywo do mocnych podbudów, dróg dojazdowych, placów, parkingów i utwardzania terenu.",
+    image: "/produkty/tluczen-32-63.jpg",
   },
   {
     id: "kliniec-4-32",
@@ -181,9 +165,8 @@ const products = [
     priceNet: 95,
     unit: "t",
     description:
-      "Do podjazdów, podbudów, wyrównywania i zagęszczania nawierzchni.",
-    image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+      "Kliniec do podjazdów, podbudów, wyrównywania terenu i zagęszczania nawierzchni pod dalsze prace.",
+    image: "/produkty/kliniec-4-32.jpg",
   },
   {
     id: "kruszywo-niesortowane-0-32",
@@ -193,9 +176,8 @@ const products = [
     priceNet: 85,
     unit: "t",
     description:
-      "Mieszanka drobnej i grubszej frakcji do stabilnych podbudów, utwardzeń i wyrównania terenu.",
-    image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+      "Mieszanka drobnej i grubszej frakcji do stabilnych podbudów, utwardzeń, wyrównania terenu i prac drogowych.",
+    image: "/produkty/kruszywo-0-32.jpg",
   },
   {
     id: "kruszywo-niesortowane-0-63",
@@ -205,12 +187,9 @@ const products = [
     priceNet: 85,
     unit: "t",
     description:
-      "Grubsza mieszanka do mocnych podbudów, utwardzania dróg, placów i warstw nośnych.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+      "Grubsza mieszanka do mocnych podbudów, utwardzania dróg, placów, parkingów i warstw nośnych.",
+    image: "/produkty/kruszywo-0-63.jpg",
   },
-
-  // KRUSZYWA BUDOWLANE — POSPÓŁKA
   {
     id: "pospolka",
     type: "build",
@@ -219,12 +198,9 @@ const products = [
     priceNet: 75,
     unit: "t",
     description:
-      "Naturalna mieszanka piasku i żwiru do podbudów, zasypek, wyrównań i prac drogowych.",
-    image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+      "Naturalna mieszanka piasku i żwiru do podbudów, zasypek, wyrównywania terenu, fundamentów i prac drogowych.",
+    image: "/produkty/pospolka.jpg",
   },
-
-  // KRUSZYWA BUDOWLANE — PRZEKRUSZ BETONOWY
   {
     id: "przekrusz-betonowy-0-63",
     type: "build",
@@ -233,10 +209,10 @@ const products = [
     priceNet: 60,
     unit: "t",
     description:
-      "Ekonomiczne kruszywo z recyklingu do utwardzania dróg, placów, podjazdów i podbudów.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+      "Ekonomiczne kruszywo z recyklingu do utwardzania dróg, placów, podjazdów, dojazdów i podbudów.",
+    image: "/produkty/przekrusz-betonowy-0-63.jpg",
   },
+
 
   // KRUSZYWA OZDOBNE
   {
