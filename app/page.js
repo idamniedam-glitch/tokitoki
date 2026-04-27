@@ -500,16 +500,36 @@ function CalculatorBox({ showCalc, setShowCalc, calc, setCalc, calcResult }) {
   );
 }
 
-function OrderProgress({ step, goToStep, cart, totals, zone }) {
+function OrderProgress({ step, goToStep }) {
   return (
-    <section className="mb-6 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-stone-200">
-      <div className="grid grid-cols-5 gap-2 text-center text-[11px] font-black md:text-sm">
+    <section className="mb-6 rounded-[2rem] bg-white p-3 shadow-sm ring-1 ring-stone-200 sm:p-4">
+      <div className="grid grid-cols-5 gap-1.5 text-center text-[10px] font-black sm:gap-2 sm:text-sm">
         {steps.map((label, index) => {
           const number = index + 1;
-          return <button key={label} type="button" onClick={() => goToStep(number)} className={`min-h-12 rounded-2xl px-2 transition ${step === number ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15" : step > number ? "bg-emerald-50 text-emerald-800" : "bg-stone-100 text-zinc-500"}`}><span className="block md:hidden">{number}</span><span className="hidden md:block">{number}. {label}</span></button>;
+          const isActive = step === number;
+          const isDone = step > number;
+
+          return (
+            <button
+              key={label}
+              type="button"
+              onClick={() => goToStep(number)}
+              className={`flex min-h-14 flex-col items-center justify-center rounded-2xl px-1.5 leading-tight transition sm:min-h-12 sm:flex-row sm:gap-1 sm:px-2 ${
+                isActive
+                  ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15"
+                  : isDone
+                  ? "bg-emerald-50 text-emerald-800"
+                  : "bg-stone-100 text-zinc-500"
+              }`}
+            >
+              <span className="text-[11px] sm:text-sm">{number}.</span>
+              <span className="mt-0.5 max-w-full truncate text-[10px] sm:mt-0 sm:text-sm">
+                {label}
+              </span>
+            </button>
+          );
         })}
       </div>
-      <div className="mt-4 flex items-center justify-between rounded-2xl bg-stone-50 p-3 text-sm"><div><b>{cart.length}</b> produktów w koszyku</div><div className="font-black text-emerald-800">{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</div></div>
     </section>
   );
 }
