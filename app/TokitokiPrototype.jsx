@@ -738,78 +738,92 @@ function OrderProgress({ step, goToStep }) {
 
 function ProductCard({ product, qty, setQty, addToCart }) {
   const safeQty = Number(qty) || 0;
+
   return (
     <article className="group overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-stone-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-300/40">
-      <div className="relative h-48 overflow-hidden"><img
-  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-  src={product.image}
-  alt={`${product.name} Rzeszów dostawa kruszywa`}
-  loading="lazy"
-/>
+      <div className="relative h-48 overflow-hidden">
+        <img
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          src={product.image}
+          alt={`${product.name} Rzeszów dostawa kruszywa`}
+          loading="lazy"
+        />
+
+        <div className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-black text-emerald-800 shadow">
+          {product.subcategory}
+        </div>
+      </div>
+
       <div className="p-4">
         <h3 className="text-xl font-black leading-tight">{product.name}</h3>
-        <p className="mt-2 min-h-12 text-sm leading-6 text-zinc-600">{product.description}</p>
+
+        <p className="mt-2 min-h-12 text-sm leading-6 text-zinc-600">
+          {product.description}
+        </p>
+
         <div className="mt-3 flex items-end justify-between gap-3 rounded-2xl bg-stone-50 p-3">
-          <div><div className="text-xs font-bold text-zinc-500">Netto / {product.unit}</div><div className="text-2xl font-black">{currency(product.priceNet)}</div></div>
-          <div className="text-right text-sm text-zinc-600">Brutto<br /><b>{currency(gross(product.priceNet))}</b></div>
-        </div>
-        <div className="mt-4 flex items-center gap-3">
-          <div className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-stone-200 p-2">
-            <button type="button" onClick={() => setQty(product.id, Math.max(1, Number(qty || 1) - 1))} className="rounded-xl bg-stone-100 p-3"><Minus size={16} /></button>
-            <input type="number" value={qty} min="1" onChange={(e) => setQty(product.id, e.target.value)} onBlur={() => { if (qty === "" || Number(qty) < 1) setQty(product.id, 1); }} className="w-16 border-none bg-transparent text-center text-lg font-black outline-none" />
-            <button type="button" onClick={() => setQty(product.id, Number(qty || 1) + 1)} className="rounded-xl bg-stone-100 p-3"><Plus size={16} /></button>
-          </div>
-          <button type="button" onClick={() => addToCart(product)} className="min-h-14 rounded-2xl bg-emerald-800 px-5 font-black text-white shadow-lg shadow-emerald-900/15 transition hover:bg-emerald-900">Dodaj</button>
-        </div>
-        <div className="mt-3 text-sm text-zinc-600">Razem netto: <b>{currency(product.priceNet * safeQty)}</b></div>
-      </div>
-    </article>
-  );
-}
-
-function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
-  if (step >= 5) return null;
-
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
-        <button
-          type="button"
-          onClick={() => {
-            if (cart.length === 0) return goToStep(2);
-            if (step !== 2) return goToStep(2);
-            scrollToCart();
-          }}
-          className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
-        >
-          <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
-            <ShoppingCart size={18} />
-          </div>
           <div>
-            <div className="text-xs font-bold text-zinc-500">Kliknij, aby zobaczyć koszyk</div>
-            <div className="font-black text-emerald-800">
-              {cart.length} prod. · {!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
+            <div className="text-xs font-bold text-zinc-500">
+              Netto / {product.unit}
+            </div>
+            <div className="text-2xl font-black">
+              {currency(product.priceNet)}
             </div>
           </div>
-        </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            if (cart.length === 0) return goToStep(2);
-            if (step === 1) goToStep(2);
-            else if (step === 2) goToStep(3);
-            else if (step === 3) {
-              if (!zone?.id) return alert("Wybierz miejsce dostawy.");
-              goToStep(4);
-            } else if (step === 4) goToStep(5);
-          }}
-          className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white active:scale-[0.98]"
-        >
-          {cart.length === 0 ? "Wybierz" : "Dalej"}
-        </button>
+          <div className="text-right text-sm text-zinc-600">
+            Brutto
+            <br />
+            <b>{currency(gross(product.priceNet))}</b>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-3">
+          <div className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-stone-200 p-2">
+            <button
+              type="button"
+              onClick={() =>
+                setQty(product.id, Math.max(1, Number(qty || 1) - 1))
+              }
+              className="rounded-xl bg-stone-100 p-3"
+            >
+              <Minus size={16} />
+            </button>
+
+            <input
+              type="number"
+              value={qty}
+              min="1"
+              onChange={(e) => setQty(product.id, e.target.value)}
+              onBlur={() => {
+                if (qty === "" || Number(qty) < 1) setQty(product.id, 1);
+              }}
+              className="w-16 border-none bg-transparent text-center text-lg font-black outline-none"
+            />
+
+            <button
+              type="button"
+              onClick={() => setQty(product.id, Number(qty || 1) + 1)}
+              className="rounded-xl bg-stone-100 p-3"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="min-h-14 rounded-2xl bg-emerald-800 px-5 font-black text-white shadow-lg shadow-emerald-900/15 transition hover:bg-emerald-900"
+          >
+            Dodaj
+          </button>
+        </div>
+
+        <div className="mt-3 text-sm text-zinc-600">
+          Razem netto: <b>{currency(product.priceNet * safeQty)}</b>
+        </div>
       </div>
-    </div>
+    </article>
   );
 }
 
