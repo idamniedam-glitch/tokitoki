@@ -479,8 +479,8 @@ export default function TokitokiPrototype() {
             </p>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
-              Wybierz materiał, podaj ilość i adres.
-              Ładujemy towar na taczki i jedźiemy :) ! 
+              Ty Wybierz materiał, podaj ilość i adres.
+              My to załadujemy na nasze "taczki" i przywieziemy :) ! 
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
