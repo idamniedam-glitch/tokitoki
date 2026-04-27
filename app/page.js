@@ -56,7 +56,7 @@ const products = [
     unit: "t",
     description:
       "Jasny, drobny piasek do piaskownic, placów zabaw i przestrzeni rekreacyjnych przy domu. Dostawa na terenie Rzeszowa i okolic.",
-    image: "/produkty/piasek-do-piaskownic.jpg",
+    image: "public/produkty/piasek-do-piaskownic.jpg",
   },
   {
     id: "piasek-zasypowy",
