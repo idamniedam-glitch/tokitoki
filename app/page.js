@@ -309,20 +309,34 @@ export default function TokitokiPrototype() {
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-7 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-16">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="flex flex-col justify-center">
             <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
+              ⭐ 4.9/5 – klienci z Rzeszowa polecają
+            </div>
+            <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-stone-100 px-4 py-2 text-xs font-bold text-zinc-700">
+              Ponad 200 dostaw w regionie
+            </div>
+
+            <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
               <Sparkles size={16} /> Dostawa kruszyw — Rzeszów i okolice
             </div>
 
             <h1 className="max-w-3xl text-4xl font-black leading-[1.03] tracking-tight sm:text-5xl lg:text-7xl">
-              Zamów kruszywo <span className="text-emerald-800">bez dzwonienia po wycenę</span>
+              Zamów kruszywo <span className="text-emerald-800">z dostawą w 60 sekund</span>
             </h1>
+
+            <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
+              Zamówienie potwierdzamy telefonicznie — nic nie ryzykujesz.
+            </p>
+            <p className="mt-2 text-sm font-bold text-zinc-500">
+              Bez rejestracji • bez płatności online • 1 minuta
+            </p>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
               Wybierz materiał, podaj ilość i adres. Oddzwonimy tylko po potwierdzenie terminu, dostępności i transportu.
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
-              <button type="button" onClick={() => goToStep(1)} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900">
-                Zamów kruszywo teraz <ArrowRight size={20} />
+              <button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); goToStep(1); }} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-emerald-800 px-7 py-4 text-base font-black text-white shadow-xl shadow-emerald-900/20 transition hover:-translate-y-0.5 hover:bg-emerald-900">
+                Zamów w 60 sekund <ArrowRight size={20} />
               </button>
               <a href={`https://wa.me/${PHONE.replace("+", "")}?text=${whatsappText}`} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl border-2 border-emerald-800 bg-white px-7 py-4 text-base font-black text-emerald-900 transition hover:bg-emerald-50">
                 Zapytaj na WhatsApp <MessageCircle size={20} />
@@ -331,8 +345,8 @@ export default function TokitokiPrototype() {
 
             <div className="mt-7 grid gap-3 sm:grid-cols-3">
               <MiniProof icon={<Truck size={19} />} title="Szybka dostawa" text="Rzeszów i okolice" />
-              <MiniProof icon={<ShieldCheck size={19} />} title="Cena brutto" text="w podsumowaniu" />
-              <MiniProof icon={<Clock3 size={19} />} title="Bez płatności online" text="najpierw potwierdzenie" />
+              <MiniProof icon={<ShieldCheck size={19} />} title="Uczciwe ceny" text="bez ukrytych kosztów" />
+              <MiniProof icon={<Clock3 size={19} />} title="Lokalna firma" text="działamy na miejscu" />
             </div>
           </motion.div>
 
@@ -486,6 +500,18 @@ export default function TokitokiPrototype() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      <section className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+        <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200">
+          <h2 className="text-2xl font-black">Kruszywa Rzeszów – dostawa piasku i kamienia</h2>
+          <p className="mt-3 text-zinc-600 leading-7">
+            Oferujemy sprzedaż i transport kruszyw na terenie Rzeszowa i okolic. W naszej ofercie znajdziesz piasek, pospółkę, kliniec oraz kamień dekoracyjny.
+          </p>
+          <p className="mt-3 text-zinc-600 leading-7">
+            Zamówienie zajmuje mniej niż minutę, a wszystko potwierdzamy telefonicznie.
+          </p>
+        </div>
+      </section>
 
       <ContactSection whatsappText={whatsappText} />
       <Toast message={toast} />
