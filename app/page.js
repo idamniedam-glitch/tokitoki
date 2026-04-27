@@ -506,8 +506,6 @@ export default function TokitokiPrototype() {
           <div className="relative min-h-[300px] overflow-hidden rounded-[2rem] bg-stone-200 shadow-2xl shadow-stone-300/60 lg:min-h-[520px]">
             <img className="h-full w-full object-cover" src="/hero-taczki-rzeszow.png" alt="Dostawa kruszyw w Rzeszowie" />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/55 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 rounded-3xl bg-white/95 p-4 shadow-xl backdrop-blur">
-            </div>
           </div>
         </div>
       </section>
