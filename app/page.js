@@ -154,6 +154,7 @@ export default function TokitokiPrototype() {
     notes: "",
   });
   const [calc, setCalc] = useState({ length: "", width: "", depth: "", compaction: 1 });
+  const [toast, setToast] = useState(null);
 
   const phoneDigits = form.phone.replace(/\D/g, "");
   const isPhoneValid = phoneDigits.length === 9;
@@ -199,6 +200,12 @@ export default function TokitokiPrototype() {
     setQuantities((prev) => ({ ...prev, [id]: qty }));
   }
 
+  function showToast(message) {
+    setToast(message);
+    window.clearTimeout(window.__tokitokiToastTimer);
+    window.__tokitokiToastTimer = window.setTimeout(() => setToast(null), 1400);
+  }
+
   function addToCart(product) {
     const qtyValue = Number(getQty(product.id));
     if (!qtyValue || qtyValue < 1) {
@@ -214,10 +221,32 @@ export default function TokitokiPrototype() {
       }
       return [...prev, { ...product, qty: qtyValue }];
     });
+
+    showToast(`Dodano: ${product.name}`);
+  }
+
+  function updateCartQty(id, nextQty) {
+    const value = Number(nextQty);
+
+    if (!value || value < 1) {
+      setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty: 1 } : i)));
+      return;
+    }
+
+    setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty: value } : i)));
   }
 
   function removeFromCart(id) {
+    const item = cart.find((i) => i.id === id);
+    const confirmed = window.confirm(`Usunąć z koszyka: ${item?.name || "ten produkt"}?`);
+    if (!confirmed) return;
+
     setCart((prev) => prev.filter((i) => i.id !== id));
+    showToast("Produkt usunięty z koszyka");
+  }
+
+  function scrollToCart() {
+    document.getElementById("koszyk")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function goToStep(nextStep) {
@@ -356,7 +385,7 @@ export default function TokitokiPrototype() {
                   ))}
                 </div>
 
-                <CartBox cart={cart} totals={totals} zone={zone} removeFromCart={removeFromCart} />
+                <CartBox cart={cart} totals={totals} zone={zone} removeFromCart={removeFromCart} updateCartQty={updateCartQty} />
                 <StepActions backLabel="Wstecz" nextLabel="Dalej: dostawa" onBack={() => goToStep(1)} onNext={() => { if (cart.length === 0) return alert("Dodaj przynajmniej jeden produkt."); goToStep(3); }} />
               </section>
             )}
@@ -447,7 +476,8 @@ export default function TokitokiPrototype() {
       </main>
 
       <ContactSection whatsappText={whatsappText} />
-      <MobileSticky cart={cart} totals={totals} zone={zone} step={step} goToStep={goToStep} />
+      <Toast message={toast} />
+      <MobileSticky cart={cart} totals={totals} zone={zone} step={step} goToStep={goToStep} scrollToCart={scrollToCart} />
     </div>
   );
 }
@@ -560,13 +590,44 @@ function ProductCard({ product, qty, setQty, addToCart }) {
   );
 }
 
-function MobileSticky({ cart, totals, zone, step, goToStep }) {
+function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
   if (step >= 5) return null;
+
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
-        <div><div className="text-xs font-bold text-zinc-500">Koszyk</div><div className="font-black text-emerald-800">{cart.length} prod. · {zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</div></div>
-        <button type="button" onClick={() => { if (cart.length === 0) return goToStep(2); if (step < 3) goToStep(3); else if (step < 4) goToStep(4); else goToStep(5); }} className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white">{cart.length === 0 ? "Wybierz" : "Dalej"}</button>
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
+        <button
+          type="button"
+          onClick={() => {
+            if (cart.length === 0) return goToStep(2);
+            if (step !== 2) return goToStep(2);
+            scrollToCart();
+          }}
+          className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
+        >
+          <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
+            <ShoppingCart size={18} />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-zinc-500">Kliknij, aby zobaczyć koszyk</div>
+            <div className="font-black text-emerald-800">
+              {cart.length} prod. · {zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
+            </div>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (cart.length === 0) return goToStep(2);
+            if (step < 3) goToStep(3);
+            else if (step < 4) goToStep(4);
+            else goToStep(5);
+          }}
+          className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white active:scale-[0.98]"
+        >
+          {cart.length === 0 ? "Wybierz" : "Dalej"}
+        </button>
       </div>
     </div>
   );
@@ -582,16 +643,112 @@ function MiniProof({ icon, title, text }) { return <div className="flex items-ce
 function SummaryItem({ item }) { return <div className="flex items-center gap-3 rounded-2xl border border-stone-200 p-3"><img src={item.image} alt={item.name} className="h-16 w-16 rounded-xl object-cover" /><div className="flex-1"><div className="font-black">{item.name}</div><div className="text-sm text-zinc-500">{item.qty} {item.unit} · {currency(item.priceNet * item.qty)} netto</div></div></div>; }
 function SummaryTotals({ zone, totals }) { return <div className="mt-5 rounded-3xl bg-stone-50 p-4 text-sm"><div className="flex justify-between"><span>Miejsce dostawy:</span><b>{zone?.name}</b></div><div className="mt-2 flex justify-between"><span>Produkty netto:</span><b>{currency(totals.productsNet)}</b></div><div className="mt-2 flex justify-between"><span>Transport netto:</span><b>{zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div><div className="mt-2 flex justify-between"><span>VAT 23%:</span><b>{zone?.price === null ? "—" : currency(totals.vat)}</b></div><div className="mt-3 flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto:</span><b>{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div></div>; }
 
-function CartBox({ cart, totals, zone, removeFromCart }) {
+function CartBox({ cart, totals, zone, removeFromCart, updateCartQty }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200">
-      <div className="flex items-center justify-between"><h2 className="text-xl font-black">Koszyk ({cart.length})</h2><ShoppingCart className="text-emerald-800" /></div>
-      <div className="mt-4 space-y-3">
-        {cart.length === 0 && <p className="rounded-2xl bg-stone-50 p-4 text-sm text-zinc-600">Dodaj produkt, żeby zobaczyć podsumowanie.</p>}
-        {cart.map((item) => <div key={item.id} className="flex gap-3 rounded-2xl border border-stone-200 p-3"><img className="h-16 w-16 rounded-xl object-cover" src={item.image} alt="" /><div className="flex-1"><div className="font-bold">{item.name}</div><div className="text-sm text-zinc-500">{item.qty} {item.unit} · {currency(item.priceNet * item.qty)} netto</div></div><button type="button" onClick={() => removeFromCart(item.id)} className="rounded-xl p-2 text-zinc-400 hover:bg-red-50 hover:text-red-600"><Trash2 size={18} /></button></div>)}
+    <section id="koszyk" className="scroll-mt-28 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-black">Koszyk ({cart.length})</h2>
+          <p className="mt-1 text-sm text-zinc-500">Tutaj możesz zmienić ilość ton albo usunąć produkt.</p>
+        </div>
+        <ShoppingCart className="text-emerald-800" />
       </div>
-      <div className="mt-5 space-y-2 border-t border-stone-200 pt-4 text-sm"><div className="flex justify-between"><span>Produkty netto</span><b>{currency(totals.productsNet)}</b></div><div className="flex justify-between"><span>Transport netto</span><b>{zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div><div className="flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto</span><b>{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div></div>
+
+      <div className="mt-4 space-y-3">
+        {cart.length === 0 && (
+          <p className="rounded-2xl bg-stone-50 p-4 text-sm text-zinc-600">
+            Dodaj produkt, żeby zobaczyć podsumowanie.
+          </p>
+        )}
+
+        {cart.map((item) => (
+          <div key={item.id} className="rounded-3xl border border-stone-200 p-3">
+            <div className="flex gap-3">
+              <img className="h-16 w-16 rounded-xl object-cover" src={item.image} alt="" />
+              <div className="min-w-0 flex-1">
+                <div className="font-bold leading-tight">{item.name}</div>
+                <div className="mt-1 text-sm text-zinc-500">
+                  {currency(item.priceNet)} netto / {item.unit}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => removeFromCart(item.id)}
+                className="h-11 w-11 rounded-2xl text-zinc-400 transition hover:bg-red-50 hover:text-red-600 active:scale-95"
+                aria-label={`Usuń ${item.name} z koszyka`}
+              >
+                <Trash2 size={18} className="mx-auto" />
+              </button>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-stone-50 p-2">
+              <div className="flex min-h-12 items-center rounded-2xl bg-white ring-1 ring-stone-200">
+                <button
+                  type="button"
+                  onClick={() => updateCartQty(item.id, Math.max(1, Number(item.qty || 1) - 1))}
+                  className="h-12 w-12 rounded-l-2xl font-black text-zinc-700 active:bg-stone-100"
+                  aria-label="Zmniejsz ilość"
+                >
+                  <Minus size={16} className="mx-auto" />
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  value={item.qty}
+                  onChange={(e) => updateCartQty(item.id, e.target.value)}
+                  onBlur={(e) => updateCartQty(item.id, e.target.value)}
+                  className="h-12 w-16 border-x border-stone-100 text-center text-lg font-black outline-none"
+                  aria-label={`Ilość ton dla ${item.name}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => updateCartQty(item.id, Number(item.qty || 1) + 1)}
+                  className="h-12 w-12 rounded-r-2xl font-black text-zinc-700 active:bg-stone-100"
+                  aria-label="Zwiększ ilość"
+                >
+                  <Plus size={16} className="mx-auto" />
+                </button>
+              </div>
+
+              <div className="text-right text-sm">
+                <div className="text-zinc-500">Razem netto</div>
+                <div className="font-black text-emerald-800">{currency(item.priceNet * item.qty)}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 space-y-2 border-t border-stone-200 pt-4 text-sm">
+        <div className="flex justify-between"><span>Produkty netto</span><b>{currency(totals.productsNet)}</b></div>
+        <div className="flex justify-between"><span>Transport netto</span><b>{zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div>
+        <div className="flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto</span><b>{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div>
+      </div>
     </section>
+  );
+}
+
+function Toast({ message }) {
+  return (
+    <AnimatePresence>
+      {message && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 12, scale: 0.96 }}
+          className="fixed bottom-24 left-4 right-4 z-[60] mx-auto flex max-w-md items-center gap-3 rounded-3xl bg-zinc-950 px-4 py-4 text-white shadow-2xl lg:bottom-8"
+          role="status"
+        >
+          <div className="rounded-2xl bg-emerald-500 p-2">
+            <CheckCircle2 size={20} />
+          </div>
+          <div>
+            <div className="font-black">Gotowe</div>
+            <div className="text-sm text-white/80">{message}</div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
