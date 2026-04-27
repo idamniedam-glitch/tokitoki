@@ -46,16 +46,18 @@ const deliveryZones = [
 ];
 
 const products = [
+  // KRUSZYWA BUDOWLANE — PIASEK
   {
-    id: "piasek-plukany-0-2",
+    id: "piasek-do-piaskownic",
     type: "build",
     subcategory: "Piasek",
-    name: "Piasek płukany 0–2 mm",
+    name: "Piasek do piaskownic",
     priceNet: 80,
     unit: "t",
-    description: "Do betonu, zapraw, wylewek i prac budowlanych.",
+    description:
+      "Drobny, jasny piasek do piaskownic, placów zabaw i rekreacyjnych przestrzeni przy domu.",
     image:
-      "https://images.unsplash.com/photo-1605366344364-8f6f0108d891?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=900&auto=format&fit=crop",
   },
   {
     id: "piasek-zasypowy",
@@ -64,10 +66,151 @@ const products = [
     name: "Piasek zasypowy",
     priceNet: 70,
     unit: "t",
-    description: "Do zasypywania wykopów, pod kostkę i fundamenty.",
+    description:
+      "Do zasypywania wykopów, wyrównywania terenu, fundamentów i prac ziemnych.",
     image:
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=900&auto=format&fit=crop",
   },
+  {
+    id: "piasek-plukany-0-2",
+    type: "build",
+    subcategory: "Piasek",
+    name: "Piasek płukany 0–2 mm",
+    priceNet: 80,
+    unit: "t",
+    description:
+      "Czysty piasek płukany do betonu, zapraw, wylewek i prac budowlanych.",
+    image:
+      "https://images.unsplash.com/photo-1605366344364-8f6f0108d891?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "piasek-do-tynkow-0-1",
+    type: "build",
+    subcategory: "Piasek",
+    name: "Piasek do tynków 0–1 mm",
+    priceNet: 85,
+    unit: "t",
+    description:
+      "Drobna frakcja do tynków, zapraw murarskich i prac wykończeniowych wymagających gładkiej struktury.",
+    image:
+      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+  },
+
+  // KRUSZYWA BUDOWLANE — ŻWIR
+  {
+    id: "zwir-2-8",
+    type: "build",
+    subcategory: "Żwir",
+    name: "Żwir 2–8 mm",
+    priceNet: 95,
+    unit: "t",
+    description:
+      "Drobny żwir do betonu, drenaży, podsypek i prac ogrodowo-budowlanych.",
+    image:
+      "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "zwir-8-16",
+    type: "build",
+    subcategory: "Żwir",
+    name: "Żwir 8–16 mm",
+    priceNet: 100,
+    unit: "t",
+    description:
+      "Uniwersalny żwir do betonu, drenaży, opasek wokół budynków i utwardzeń.",
+    image:
+      "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "zwir-16-32",
+    type: "build",
+    subcategory: "Żwir",
+    name: "Żwir 16–32 mm",
+    priceNet: 105,
+    unit: "t",
+    description:
+      "Grubszy żwir do drenażu, odwodnień, warstw filtracyjnych i prac wokół domu.",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+  },
+
+  // KRUSZYWA BUDOWLANE — GRYS
+  {
+    id: "grys-2-8",
+    type: "build",
+    subcategory: "Grys",
+    name: "Grys 2–8 mm",
+    priceNet: 110,
+    unit: "t",
+    description:
+      "Drobny grys do utwardzeń, podjazdów, ścieżek, drenażu i prac wykończeniowych.",
+    image:
+      "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "grys-8-16",
+    type: "build",
+    subcategory: "Grys",
+    name: "Grys 8–16 mm",
+    priceNet: 115,
+    unit: "t",
+    description:
+      "Popularna frakcja do podjazdów, ścieżek, opasek przy budynkach i ogrodu.",
+    image:
+      "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
+  },
+
+  // KRUSZYWA BUDOWLANE — TŁUCZEŃ I KLINIEC
+  {
+    id: "tluczen-32-63",
+    type: "build",
+    subcategory: "Tłuczeń i kliniec",
+    name: "Tłuczeń 32–63 mm",
+    priceNet: 95,
+    unit: "t",
+    description:
+      "Grube kruszywo do mocnych podbudów, dróg dojazdowych, placów i utwardzania terenu.",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "kliniec-4-32",
+    type: "build",
+    subcategory: "Tłuczeń i kliniec",
+    name: "Kliniec 4–32 mm",
+    priceNet: 95,
+    unit: "t",
+    description:
+      "Do podjazdów, podbudów, wyrównywania i zagęszczania nawierzchni.",
+    image:
+      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "kruszywo-niesortowane-0-32",
+    type: "build",
+    subcategory: "Tłuczeń i kliniec",
+    name: "Kruszywo niesortowane 0–32 mm",
+    priceNet: 85,
+    unit: "t",
+    description:
+      "Mieszanka drobnej i grubszej frakcji do stabilnych podbudów, utwardzeń i wyrównania terenu.",
+    image:
+      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    id: "kruszywo-niesortowane-0-63",
+    type: "build",
+    subcategory: "Tłuczeń i kliniec",
+    name: "Kruszywo niesortowane 0–63 mm",
+    priceNet: 85,
+    unit: "t",
+    description:
+      "Grubsza mieszanka do mocnych podbudów, utwardzania dróg, placów i warstw nośnych.",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
+  },
+
+  // KRUSZYWA BUDOWLANE — POSPÓŁKA
   {
     id: "pospolka",
     type: "build",
@@ -75,29 +218,36 @@ const products = [
     name: "Pospółka żwirowo-piaskowa",
     priceNet: 75,
     unit: "t",
-    description: "Podbudowy, wyrównania terenu i prace drogowe.",
+    description:
+      "Naturalna mieszanka piasku i żwiru do podbudów, zasypek, wyrównań i prac drogowych.",
     image:
       "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=900&auto=format&fit=crop",
   },
+
+  // KRUSZYWA BUDOWLANE — PRZEKRUSZ BETONOWY
   {
-    id: "kliniec-31-63",
+    id: "przekrusz-betonowy-0-63",
     type: "build",
-    subcategory: "Kamień",
-    name: "Kliniec 31–63 mm",
-    priceNet: 95,
+    subcategory: "Przekrusz betonowy",
+    name: "Przekrusz betonowy 0–63 mm",
+    priceNet: 60,
     unit: "t",
-    description: "Na podbudowy, drogi dojazdowe i utwardzenia.",
+    description:
+      "Ekonomiczne kruszywo z recyklingu do utwardzania dróg, placów, podjazdów i podbudów.",
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=900&auto=format&fit=crop",
   },
+
+  // KRUSZYWA OZDOBNE
   {
     id: "grys-bialy",
     type: "decor",
-    subcategory: "Grys",
+    subcategory: "Grys ozdobny",
     name: "Grys biały dekoracyjny",
     priceNet: 420,
     unit: "t",
-    description: "Do ogrodów, rabat, opasek wokół domu i dekoracji.",
+    description:
+      "Do ogrodów, rabat, opasek wokół domu, dekoracji i nowoczesnych aranżacji terenu.",
     image:
       "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
   },
@@ -108,7 +258,8 @@ const products = [
     name: "Otoczak szary",
     priceNet: 390,
     unit: "t",
-    description: "Naturalny kamień ozdobny do ogrodu i przy elewacji.",
+    description:
+      "Naturalny kamień ozdobny do ogrodu, rabat, oczek wodnych i opasek przy elewacji.",
     image:
       "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
   },
@@ -309,7 +460,10 @@ export default function TokitokiPrototype() {
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-7 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-16">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="flex flex-col justify-center">
             <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
-              Ponad 200 dostaw w Rzeszowie i regionie rocznie
+              Ponad 200 dostaw w regionie rocznie
+            </div>
+            <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-stone-100 px-4 py-2 text-xs font-bold text-zinc-700">
+              Ponad 200 dostaw w regionie
             </div>
 
             <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-900">
@@ -328,7 +482,7 @@ export default function TokitokiPrototype() {
             </p>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
-              Wybierz materiał, podaj ilość i adres. I działamy !
+              Wybierz materiał, podaj ilość i adres. Oddzwonimy tylko po potwierdzenie terminu, dostępności i transportu.
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
@@ -521,12 +675,7 @@ function Header({ goToStep, whatsappText }) {
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
-        <button
-          type="button"
-        onClick={() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  goToStep(1);
-}} className="flex items-center gap-3 text-left">
+        <button type="button" onClick={() => goToStep(1)} className="flex items-center gap-3 text-left">
           <LogoMark />
           <div><div className="text-xl font-black leading-none tracking-tight sm:text-2xl">TOKITOKI</div><div className="mt-1 text-[10px] font-black uppercase tracking-wide text-zinc-600">Kruszywa z dostawą</div></div>
         </button>
