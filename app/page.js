@@ -521,6 +521,8 @@ function Header({ goToStep, whatsappText }) {
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
+        <button
+          type="button"
         onClick={() => {
   window.scrollTo({ top: 0, behavior: "smooth" });
   goToStep(1);
