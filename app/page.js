@@ -507,11 +507,6 @@ export default function TokitokiPrototype() {
             <img className="h-full w-full object-cover" src="/hero-taczki-rzeszow.png" alt="Dostawa kruszyw w Rzeszowie" />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/55 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 rounded-3xl bg-white/95 p-4 shadow-xl backdrop-blur">
-              <div className="text-sm font-bold text-zinc-500">Najczęściej wybierane</div>
-              <div className="mt-1 text-xl font-black">Piasek płukany + dostawa</div>
-              <button type="button" onClick={() => goToStep(2)} className="mt-3 w-full rounded-2xl bg-emerald-800 px-4 py-3 font-black text-white">
-                Przejdź do produktów
-              </button>
             </div>
           </div>
         </div>
