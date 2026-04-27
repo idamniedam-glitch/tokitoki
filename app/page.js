@@ -27,8 +27,8 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const VAT = 0.23;
-const PHONE = "+48123456789";
-const PHONE_LABEL = "+48 123 456 789";
+const PHONE = "+48692988692";
+const PHONE_LABEL = "+48 692 988 692";
 
 const deliveryZones = [
   {
