@@ -527,13 +527,43 @@ export default function TokitokiPrototype() {
                   <p className="text-sm font-bold text-zinc-500">Kliknij „Dodaj” — koszyk pojawi się na dole ekranu.</p>
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {visibleProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} qty={getQty(product.id)} setQty={setQty} addToCart={addToCart} />
-                  ))}
-                </div>
+                <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+  <div className="grid gap-4">
+    {visibleProducts.map((product) => (
+      <ProductCard
+        key={product.id}
+        product={product}
+        qty={getQty(product.id)}
+        setQty={setQty}
+        addToCart={addToCart}
+      />
+    ))}
+  </div>
 
-                <CartBox cart={cart} totals={totals} zone={zone} removeFromCart={removeFromCart} updateCartQty={updateCartQty} />
+  <div className="hidden lg:block">
+    <div className="sticky top-28">
+      <CartBox
+        cart={cart}
+        totals={totals}
+        zone={zone}
+        removeFromCart={removeFromCart}
+        updateCartQty={updateCartQty}
+      />
+    </div>
+  </div>
+</div>
+
+<div className="lg:hidden">
+  <CartBox
+    cart={cart}
+    totals={totals}
+    zone={zone}
+    removeFromCart={removeFromCart}
+    updateCartQty={updateCartQty}
+  />
+</div>
+
+                
                 <StepActions backLabel="Wstecz" nextLabel="Dalej: dostawa" onBack={() => goToStep(1)} onNext={() => { if (cart.length === 0) return alert("Dodaj przynajmniej jeden produkt."); goToStep(3); }} />
               </section>
             )}
