@@ -328,7 +328,7 @@ export default function TokitokiPrototype() {
             </p>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-700 sm:text-lg">
-              Wybierz materiał, podaj ilość i adres. Oddzwonimy tylko po potwierdzenie terminu, dostępności i transportu.
+              Wybierz materiał, podaj ilość i adres. I działamy !
             </p>
 
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
@@ -521,7 +521,10 @@ function Header({ goToStep, whatsappText }) {
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
-        <button type="button" onClick={() => goToStep(1)} className="flex items-center gap-3 text-left">
+        onClick={() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  goToStep(1);
+}} className="flex items-center gap-3 text-left">
           <LogoMark />
           <div><div className="text-xl font-black leading-none tracking-tight sm:text-2xl">TOKITOKI</div><div className="mt-1 text-[10px] font-black uppercase tracking-wide text-zinc-600">Kruszywa z dostawą</div></div>
         </button>
