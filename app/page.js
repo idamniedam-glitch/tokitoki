@@ -144,7 +144,7 @@ export default function TokitokiPrototype() {
   const [subcategory, setSubcategory] = useState("Piasek");
   const [quantities, setQuantities] = useState({});
   const [cart, setCart] = useState([]);
-  const [zoneId, setZoneId] = useState("rzeszow");
+  const [zoneId, setZoneId] = useState(null);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -168,11 +168,16 @@ export default function TokitokiPrototype() {
 
   const totals = useMemo(() => {
     const productsNet = cart.reduce((sum, item) => sum + item.priceNet * Number(item.qty), 0);
-    const deliveryNet = zone?.id === "rzeszow" && productsNet >= 2000 ? 0 : zone?.price ?? 0;
+    const hasDeliverySelected = Boolean(zone);
+    const deliveryNet = !hasDeliverySelected
+      ? 0
+      : zone?.id === "rzeszow" && productsNet >= 2000
+      ? 0
+      : zone?.price ?? 0;
     const net = productsNet + deliveryNet;
     const vat = net * VAT;
     const brutto = net + vat;
-    return { productsNet, deliveryNet, net, vat, brutto };
+    return { productsNet, deliveryNet, net, vat, brutto, hasDeliverySelected };
   }, [cart, zone]);
 
   const calcResult = useMemo(() => {
@@ -256,13 +261,20 @@ export default function TokitokiPrototype() {
     }, 80);
   }
 
+  function validateDeliveryAndGoNext() {
+    if (!zoneId) return alert("Wybierz miejsce dostawy: Rzeszów albo okolice Rzeszowa.");
+    goToStep(4);
+  }
+
   function validateAndSendToSummary() {
+    if (!zoneId) return alert("Wybierz miejsce dostawy.");
     if (!isPhoneValid) return alert("Podaj poprawny numer telefonu — 9 cyfr.");
     if (!isAddressValid) return alert("Podaj dokładny adres dostawy.");
     goToStep(5);
   }
 
   async function sendOrder() {
+    if (!zoneId) return alert("Wybierz miejsce dostawy.");
     if (!isPhoneValid) return alert("Podaj poprawny numer telefonu — 9 cyfr.");
     if (!isAddressValid) return alert("Podaj dokładny adres dostawy.");
     if (cart.length === 0) return alert("Dodaj przynajmniej jeden produkt do koszyka.");
@@ -414,7 +426,7 @@ export default function TokitokiPrototype() {
                     <div className="flex items-start gap-3"><Gift size={22} className="mt-0.5 shrink-0" /><div><b>Transport gratis na terenie Rzeszowa</b><p className="mt-1 text-emerald-800">Przy zamówieniu powyżej 2000 zł netto transport naliczy się jako 0 zł.</p></div></div>
                   </div>
                 </Panel>
-                <StepActions backLabel="Wstecz" nextLabel="Dalej: dane" onBack={() => goToStep(2)} onNext={() => goToStep(4)} />
+                <StepActions backLabel="Wstecz" nextLabel="Dalej: dane" onBack={() => goToStep(2)} onNext={validateDeliveryAndGoNext} />
               </section>
             )}
 
@@ -611,7 +623,7 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
           <div>
             <div className="text-xs font-bold text-zinc-500">Kliknij, aby zobaczyć koszyk</div>
             <div className="font-black text-emerald-800">
-              {cart.length} prod. · {zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
+              {cart.length} prod. · {!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
             </div>
           </div>
         </button>
@@ -620,9 +632,12 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
           type="button"
           onClick={() => {
             if (cart.length === 0) return goToStep(2);
-            if (step < 3) goToStep(3);
-            else if (step < 4) goToStep(4);
-            else goToStep(5);
+            if (step === 1) goToStep(2);
+            else if (step === 2) goToStep(3);
+            else if (step === 3) {
+              if (!zone?.id) return alert("Wybierz miejsce dostawy.");
+              goToStep(4);
+            } else if (step === 4) goToStep(5);
           }}
           className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white active:scale-[0.98]"
         >
@@ -641,7 +656,7 @@ function Input({ error, className = "", ...props }) { return <input {...props} c
 function DateButton({ active, children, ...props }) { return <button type="button" {...props} className={`min-h-12 rounded-2xl px-4 font-black transition ${active ? "bg-emerald-800 text-white" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>{children}</button>; }
 function MiniProof({ icon, title, text }) { return <div className="flex items-center gap-3 rounded-2xl bg-white/80 p-3 shadow-sm ring-1 ring-stone-200"><div className="text-emerald-800">{icon}</div><div><div className="text-sm font-black">{title}</div><div className="text-xs text-zinc-600">{text}</div></div></div>; }
 function SummaryItem({ item }) { return <div className="flex items-center gap-3 rounded-2xl border border-stone-200 p-3"><img src={item.image} alt={item.name} className="h-16 w-16 rounded-xl object-cover" /><div className="flex-1"><div className="font-black">{item.name}</div><div className="text-sm text-zinc-500">{item.qty} {item.unit} · {currency(item.priceNet * item.qty)} netto</div></div></div>; }
-function SummaryTotals({ zone, totals }) { return <div className="mt-5 rounded-3xl bg-stone-50 p-4 text-sm"><div className="flex justify-between"><span>Miejsce dostawy:</span><b>{zone?.name}</b></div><div className="mt-2 flex justify-between"><span>Produkty netto:</span><b>{currency(totals.productsNet)}</b></div><div className="mt-2 flex justify-between"><span>Transport netto:</span><b>{zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div><div className="mt-2 flex justify-between"><span>VAT 23%:</span><b>{zone?.price === null ? "—" : currency(totals.vat)}</b></div><div className="mt-3 flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto:</span><b>{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div></div>; }
+function SummaryTotals({ zone, totals }) { return <div className="mt-5 rounded-3xl bg-stone-50 p-4 text-sm"><div className="flex justify-between"><span>Miejsce dostawy:</span><b>{zone?.name}</b></div><div className="mt-2 flex justify-between"><span>Produkty netto:</span><b>{currency(totals.productsNet)}</b></div><div className="mt-2 flex justify-between"><span>Transport netto:</span><b>{!totals.hasDeliverySelected ? "wybierz dostawę" : zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div><div className="mt-2 flex justify-between"><span>VAT 23%:</span><b>{zone?.price === null ? "—" : currency(totals.vat)}</b></div><div className="mt-3 flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto:</span><b>{!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div></div>; }
 
 function CartBox({ cart, totals, zone, removeFromCart, updateCartQty }) {
   return (
@@ -721,8 +736,8 @@ function CartBox({ cart, totals, zone, removeFromCart, updateCartQty }) {
 
       <div className="mt-5 space-y-2 border-t border-stone-200 pt-4 text-sm">
         <div className="flex justify-between"><span>Produkty netto</span><b>{currency(totals.productsNet)}</b></div>
-        <div className="flex justify-between"><span>Transport netto</span><b>{zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div>
-        <div className="flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto</span><b>{zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div>
+        <div className="flex justify-between"><span>Transport netto</span><b>{!totals.hasDeliverySelected ? "wybierz dostawę" : zone?.price === null ? "do wyceny" : currency(totals.deliveryNet)}</b></div>
+        <div className="flex justify-between text-lg text-emerald-800"><span className="font-black">Razem brutto</span><b>{!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}</b></div>
       </div>
     </section>
   );
