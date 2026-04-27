@@ -827,6 +827,52 @@ function ProductCard({ product, qty, setQty, addToCart }) {
   );
 }
 
+function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
+  if (step >= 5) return null;
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
+        <button
+          type="button"
+          onClick={() => {
+            if (cart.length === 0) return goToStep(2);
+            if (step !== 2) return goToStep(2);
+            scrollToCart();
+          }}
+          className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
+        >
+          <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
+            <ShoppingCart size={18} />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-zinc-500">Kliknij, aby zobaczyć koszyk</div>
+            <div className="font-black text-emerald-800">
+              {cart.length} prod. · {!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
+            </div>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (cart.length === 0) return goToStep(2);
+            if (step === 1) goToStep(2);
+            else if (step === 2) goToStep(3);
+            else if (step === 3) {
+              if (!zone?.id) return alert("Wybierz miejsce dostawy.");
+              goToStep(4);
+            } else if (step === 4) goToStep(5);
+          }}
+          className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white active:scale-[0.98]"
+        >
+          {cart.length === 0 ? "Wybierz" : "Dalej"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Panel({ children }) { return <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-6">{children}</section>; }
 function SectionIntro({ eyebrow, title, text }) { return <div><p className="text-sm font-black uppercase tracking-wide text-emerald-800">{eyebrow}</p><h2 className="mt-1 text-3xl font-black tracking-tight">{title}</h2><p className="mt-2 max-w-2xl text-zinc-600">{text}</p></div>; }
 function TypeCard({ active, icon, title, text, onClick }) { return <button type="button" onClick={onClick} className={`min-h-44 rounded-3xl border p-6 text-left transition hover:-translate-y-1 hover:shadow-xl ${active ? "border-emerald-700 bg-emerald-50 shadow-lg shadow-emerald-900/10" : "border-stone-200 bg-stone-50"}`}><div className="text-emerald-800">{icon}</div><div className="mt-4 text-2xl font-black">{title}</div><p className="mt-2 text-zinc-600">{text}</p>{active && <div className="mt-4 inline-flex rounded-full bg-emerald-800 px-4 py-2 text-sm font-black text-white">Wybrane</div>}</button>; }
