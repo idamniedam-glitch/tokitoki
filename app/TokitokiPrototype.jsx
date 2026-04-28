@@ -681,6 +681,7 @@ export default function TokitokiPrototype() {
                   <div className="hidden lg:block">
                     <div className="sticky top-28">
                       <CartBox
+                        id="koszyk-desktop"
                         cart={cart}
                         totals={totals}
                         zone={zone}
@@ -689,16 +690,6 @@ export default function TokitokiPrototype() {
                       />
                     </div>
                   </div>
-                </div>
-
-                <div className="lg:hidden">
-                  <CartBox
-                    cart={cart}
-                    totals={totals}
-                    zone={zone}
-                    removeFromCart={removeFromCart}
-                    updateCartQty={updateCartQty}
-                  />
                 </div>
 
                 <StepActions
@@ -916,6 +907,17 @@ export default function TokitokiPrototype() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      <div className="mx-auto max-w-7xl px-4 pb-6 lg:hidden">
+        <CartBox
+          id="koszyk"
+          cart={cart}
+          totals={totals}
+          zone={zone}
+          removeFromCart={removeFromCart}
+          updateCartQty={updateCartQty}
+        />
+      </div>
 
       <section className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
         <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200">
@@ -1191,7 +1193,7 @@ function ProductCard({ product, qty, setQty, addToCart }) {
 }
 
 function MobileSticky({ cart, totals, zone, step, goToStep, goToMobileCart }) {
-  if (step !== 2) return null;
+  if (step >= 5) return null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
@@ -1381,9 +1383,9 @@ function SummaryTotals({ zone, totals }) {
   );
 }
 
-function CartBox({ cart, totals, zone, removeFromCart, updateCartQty }) {
+function CartBox({ id = "koszyk", cart, totals, zone, removeFromCart, updateCartQty }) {
   return (
-    <section id="koszyk" className="scroll-mt-28 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200">
+    <section id={id} className="scroll-mt-28 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-black">Koszyk ({cart.length})</h2>
