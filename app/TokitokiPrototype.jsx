@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ShoppingCart,
   Phone,
@@ -379,13 +379,10 @@ export default function TokitokiPrototype() {
   }
 
   function scrollToCart() {
-    document.getElementById("koszyk")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-  function goToMobileCart() {
   const el = document.getElementById("koszyk");
   if (!el) return;
 
-  const y = el.getBoundingClientRect().top + window.scrollY - 110;
+  const y = el.getBoundingClientRect().top + window.scrollY - 120;
 
   window.scrollTo({
     top: Math.max(0, y),
@@ -393,6 +390,28 @@ export default function TokitokiPrototype() {
   });
 }
 
+function goToMobileCart() {
+  const el = document.getElementById("koszyk");
+  if (!el) return;
+
+  const y = el.getBoundingClientRect().top + window.scrollY - 120;
+
+  window.scrollTo({
+    top: Math.max(0, y),
+    behavior: "smooth",
+  });
+}
+function goToMobileCart() {
+  const el = document.getElementById("koszyk");
+  if (!el) return;
+
+  const y = el.getBoundingClientRect().top + window.scrollY - 120;
+
+  window.scrollTo({
+    top: Math.max(0, y),
+    behavior: "smooth",
+  });
+}
 
   function scrollToProductsTop() {
   setTimeout(() => {
@@ -947,21 +966,6 @@ function ProductCard({ product, qty, setQty, addToCart }) {
 function MobileSticky({ cart, totals, zone, step, goToStep, goToMobileCart }) {
   if (step >= 5) return null;
 
-  function goToCart() {
-    if (step === 2) {
-      scrollToCart();
-      return;
-    }
-
-    goToStep(2);
-
-    setTimeout(() => {
-      document.getElementById("koszyk")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 700);
-  }
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
