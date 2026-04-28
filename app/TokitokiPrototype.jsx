@@ -381,6 +381,16 @@ export default function TokitokiPrototype() {
   function scrollToCart() {
     document.getElementById("koszyk")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+  function goToMobileCart() {
+  setStep(2);
+
+  setTimeout(() => {
+    document.getElementById("koszyk")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 400);
+}
   function scrollToProductsTop() {
   setTimeout(() => {
     const el = document.getElementById("produkty-lista");
@@ -740,7 +750,14 @@ export default function TokitokiPrototype() {
 
       <ContactSection whatsappText={whatsappText} />
       <Toast message={toast} />
-      <MobileSticky cart={cart} totals={totals} zone={zone} step={step} goToStep={goToStep} scrollToCart={scrollToCart} />
+      <MobileSticky
+  cart={cart}
+  totals={totals}
+  zone={zone}
+  step={step}
+  goToStep={goToStep}
+  goToMobileCart={goToMobileCart}
+/>
     </div>
   );
 }
