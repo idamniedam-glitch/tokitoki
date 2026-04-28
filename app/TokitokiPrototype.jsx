@@ -1222,8 +1222,26 @@ function MobileSticky({ cart, totals, zone, step, goToStep, goToMobileCart }) {
         <button
           type="button"
           onClick={() => {
-            if (cart.length === 0) return alert("Dodaj przynajmniej jeden produkt.");
-            goToStep(3);
+            if (step === 1) {
+              goToStep(2);
+              return;
+            }
+
+            if (step === 2) {
+              if (cart.length === 0) return alert("Dodaj przynajmniej jeden produkt.");
+              goToStep(3);
+              return;
+            }
+
+            if (step === 3) {
+              if (!zone?.id) return alert("Wybierz miejsce dostawy.");
+              goToStep(4);
+              return;
+            }
+
+            if (step === 4) {
+              goToStep(5);
+            }
           }}
           className="min-h-14 rounded-2xl bg-emerald-800 px-5 text-sm font-black text-white active:scale-[0.98]"
         >
