@@ -386,7 +386,7 @@ export default function TokitokiPrototype() {
     const el = document.getElementById("produkty-lista");
     if (!el) return;
 
-    const yOffset = -160;
+    const yOffset = -190;
     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
     window.scrollTo({
@@ -540,7 +540,7 @@ export default function TokitokiPrototype() {
             {step === 2 && (
               <section className="space-y-6">
                {selectedType === "build" && (
-  <div className="sticky top-20 z-30 rounded-[2rem] bg-white/95 p-4 shadow-sm ring-1 ring-stone-200 backdrop-blur">
+  <div className="sticky top-20 z-30 rounded-[2rem] bg-white/95 p-4 shadow-sm ring-1 ring-stone-200 backdrop-blur lg:static lg:z-auto lg:bg-white lg:backdrop-blur-none">
     <SectionIntro
       eyebrow="Krok 2"
       title="Wybierz podkategorię"
