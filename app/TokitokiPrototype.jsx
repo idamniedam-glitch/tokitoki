@@ -530,8 +530,25 @@ export default function TokitokiPrototype() {
               <Panel>
                 <SectionIntro eyebrow="Krok 1" title="Co chcesz zamówić?" text="Wybierz kategorię — potem pokażemy tylko pasujące produkty." />
                 <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  <TypeCard active={selectedType === "build"} icon={<HardHat size={30} />} title="Kruszywa budowlane" text="Piasek, pospółka, kliniec, kamień" onClick={() => { setSelectedType("build"); setSubcategory("Piasek"); }} />
-                  <TypeCard active={selectedType === "decor"} icon={<Leaf size={30} />} title="Kruszywa ozdobne" text="Grys, otoczaki i kamień dekoracyjny" onClick={() => setSelectedType("decor")} />
+                  <TypeCard
+  active={selectedType === "build"}
+  icon={<HardHat size={30} />}
+  title="Kruszywa budowlane"
+  text="Piasek, pospółka, kliniec, kamień"
+  onClick={() => {
+    setSelectedType("build");
+    setSubcategory("Piasek");
+  }}
+  onShowProducts={() => goToStep(2)}
+/>
+                  <TypeCard
+  active={selectedType === "decor"}
+  icon={<Leaf size={30} />}
+  title="Kruszywa ozdobne"
+  text="Grys, otoczaki i kamień dekoracyjny"
+  onClick={() => setSelectedType("decor")}
+  onShowProducts={() => goToStep(2)}
+/>
                 </div>
                 <StepActions onNext={() => goToStep(2)} nextLabel="Pokaż produkty" />
               </Panel>
@@ -910,13 +927,12 @@ function ProductCard({ product, qty, setQty, addToCart }) {
 function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
   if (step >= 5) return null;
 
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
-        <button
-          type="button"
-          onClick={() => {
-  if (step !== 2) {
+  function goToCart() {
+    if (step === 2) {
+      scrollToCart();
+      return;
+    }
+
     goToStep(2);
 
     setTimeout(() => {
@@ -924,22 +940,32 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
         behavior: "smooth",
         block: "start",
       });
-    }, 350);
-
-    return;
+    }, 700);
   }
 
-  scrollToCart();
-}}
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-stone-200 bg-white/95 p-3 shadow-2xl backdrop-blur lg:hidden">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
+        <button
+          type="button"
+          onClick={goToCart}
           className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
         >
           <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
             <ShoppingCart size={18} />
           </div>
+
           <div>
-            <div className="text-xs font-bold text-zinc-500">Kliknij, aby zobaczyć koszyk</div>
+            <div className="text-xs font-bold text-zinc-500">
+              Kliknij, aby zobaczyć koszyk
+            </div>
             <div className="font-black text-emerald-800">
-              {cart.length} prod. · {!totals.hasDeliverySelected ? currency(totals.productsNet ? gross(totals.productsNet) : 0) : zone?.price === null ? "do potwierdzenia" : currency(totals.brutto)}
+              {cart.length} prod. ·{" "}
+              {!totals.hasDeliverySelected
+                ? currency(totals.productsNet ? gross(totals.productsNet) : 0)
+                : zone?.price === null
+                ? "do potwierdzenia"
+                : currency(totals.brutto)}
             </div>
           </div>
         </button>
