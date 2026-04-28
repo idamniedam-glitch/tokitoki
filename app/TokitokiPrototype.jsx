@@ -916,10 +916,21 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
         <button
           type="button"
           onClick={() => {
-            if (cart.length === 0) return goToStep(2);
-            if (step !== 2) return goToStep(2);
-            scrollToCart();
-          }}
+  if (step !== 2) {
+    goToStep(2);
+
+    setTimeout(() => {
+      document.getElementById("koszyk")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 350);
+
+    return;
+  }
+
+  scrollToCart();
+}}
           className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
         >
           <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
@@ -955,11 +966,35 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
 
 function Panel({ children }) { return <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-6">{children}</section>; }
 function SectionIntro({ eyebrow, title, text }) { return <div><p className="text-sm font-black uppercase tracking-wide text-emerald-800">{eyebrow}</p><h2 className="mt-1 text-3xl font-black tracking-tight">{title}</h2><p className="mt-2 max-w-2xl text-zinc-600">{text}</p></div>; }
-function TypeCard({ active, icon, title, text, onClick }) { return <button type="button" onClick={onClick} className={`min-h-44 rounded-3xl border p-6 text-left transition hover:-translate-y-1 hover:shadow-xl ${active ? "border-emerald-700 bg-emerald-50 shadow-lg shadow-emerald-900/10" : "border-stone-200 bg-stone-50"}`}><div className="text-emerald-800">{icon}</div><div className="mt-4 text-2xl font-black">{title}</div><p className="mt-2 text-zinc-600">{text}</p>{active && (
-  <div className="mt-4 inline-flex rounded-full bg-emerald-800 px-4 py-2 text-sm font-black text-white">
-    Pokaż produkty
-  </div>
-)}</button>; }
+function TypeCard({ active, icon, title, text, onClick, onShowProducts }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`min-h-44 rounded-3xl border p-6 text-left transition hover:-translate-y-1 hover:shadow-xl ${
+        active
+          ? "border-emerald-700 bg-emerald-50 shadow-lg shadow-emerald-900/10"
+          : "border-stone-200 bg-stone-50"
+      }`}
+    >
+      <div className="text-emerald-800">{icon}</div>
+      <div className="mt-4 text-2xl font-black">{title}</div>
+      <p className="mt-2 text-zinc-600">{text}</p>
+
+      {active && (
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            onShowProducts();
+          }}
+          className="mt-4 inline-flex rounded-full bg-emerald-800 px-4 py-2 text-sm font-black text-white"
+        >
+          Pokaż produkty
+        </span>
+      )}
+    </button>
+  );
+}
 function StepActions({ onBack, onNext, backLabel, nextLabel }) { return <div className="mt-6 flex justify-between gap-3"><button type="button" onClick={onBack} disabled={!onBack} className={`inline-flex min-h-14 items-center gap-2 rounded-2xl px-5 font-black ${onBack ? "bg-stone-100 text-zinc-700" : "invisible"}`}><ArrowLeft size={18} /> {backLabel || "Wstecz"}</button><button type="button" onClick={onNext} className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-emerald-800 px-6 font-black text-white shadow-lg shadow-emerald-900/15">{nextLabel || "Dalej"} <ArrowRight size={18} /></button></div>; }
 function Input({ error, className = "", ...props }) { return <input {...props} className={`min-h-14 w-full rounded-2xl border bg-white p-4 outline-none transition focus:border-emerald-700 focus:ring-4 focus:ring-emerald-100 ${error ? "border-red-500 bg-red-50" : "border-stone-200"} ${className}`} />; }
 function DateButton({ active, children, ...props }) { return <button type="button" {...props} className={`min-h-12 rounded-2xl px-4 font-black transition ${active ? "bg-emerald-800 text-white" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>{children}</button>; }
