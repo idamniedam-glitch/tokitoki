@@ -941,7 +941,7 @@ function ProductCard({ product, qty, setQty, addToCart }) {
   );
 }
 
-function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
+function MobileSticky({ cart, totals, zone, step, goToStep, goToMobileCart }) {
   if (step >= 5) return null;
 
   function goToCart() {
@@ -965,7 +965,7 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3">
         <button
           type="button"
-          onClick={goToCart}
+          onClick={goToMobileCart}
           className="flex min-h-14 items-center gap-3 rounded-2xl bg-stone-50 px-3 text-left ring-1 ring-stone-200 active:scale-[0.99]"
         >
           <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
