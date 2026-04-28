@@ -282,7 +282,8 @@ export default function TokitokiPrototype() {
   });
   const [calc, setCalc] = useState({ length: "", width: "", depth: "", compaction: 1 });
   const [toast, setToast] = useState(null);
-
+  const [isSending, setIsSending] = useState(false);
+  const [orderSent, setOrderSent] = useState(false);
   const phoneDigits = form.phone.replace(/\D/g, "");
   const isPhoneValid = phoneDigits.length === 9;
   const isAddressValid = form.address.trim().length >= 5;
@@ -380,6 +381,14 @@ export default function TokitokiPrototype() {
   function scrollToCart() {
     document.getElementById("koszyk")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+  function scrollToProductsTop() {
+  setTimeout(() => {
+    document.getElementById("produkty-lista")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 80);
+}
 
   function goToStep(nextStep) {
     setStep(nextStep);
@@ -401,6 +410,10 @@ export default function TokitokiPrototype() {
   }
 
   async function sendOrder() {
+  if (isSending) return;
+  setIsSending(true);
+
+  try {
     if (!zoneId) return alert("Wybierz miejsce dostawy.");
     if (!isPhoneValid) return alert("Podaj poprawny numer telefonu — 9 cyfr.");
     if (!isAddressValid) return alert("Podaj dokładny adres dostawy.");
@@ -408,7 +421,9 @@ export default function TokitokiPrototype() {
 
     const res = await fetch("/api/send-order", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: form.name,
         phone: form.phone,
@@ -425,8 +440,20 @@ export default function TokitokiPrototype() {
     });
 
     const data = await res.json();
-    alert(data.success ? "Zamówienie wysłane!" : "Błąd wysyłki!");
+
+    if (data.success) {
+      setOrderSent(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      alert("Błąd wysyłki. Spróbuj ponownie albo zadzwoń.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Błąd wysyłki. Spróbuj ponownie albo zadzwoń.");
+  } finally {
+    setIsSending(false);
   }
+}
 
   return (
     <div className="min-h-screen bg-[#f7f4ee] pb-28 text-zinc-950 lg:pb-0 [&_a]:cursor-pointer [&_button]:cursor-pointer">
@@ -511,7 +538,10 @@ export default function TokitokiPrototype() {
                     <SectionIntro eyebrow="Krok 2" title="Wybierz podkategorię" text="Szybki filtr pomaga szybciej znaleźć właściwy materiał." />
                     <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
                       {subcategories.map((s) => (
-                        <button key={s} type="button" onClick={() => setSubcategory(s)} className={`min-h-12 shrink-0 rounded-2xl px-5 font-black transition ${subcategory === s ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>
+                        <button key={s} type="button" onClick={() => {
+  setSubcategory(s);
+  scrollToProductsTop();
+}} className={`min-h-12 shrink-0 rounded-2xl px-5 font-black transition ${subcategory === s ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>
                           {s}
                         </button>
                       ))}
@@ -519,7 +549,7 @@ export default function TokitokiPrototype() {
                   </Panel>
                 )}
 
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div id="produkty-lista" className="scroll-mt-28 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-sm font-black uppercase tracking-wide text-emerald-800">Produkty</p>
                     <h2 className="text-3xl font-black tracking-tight">{selectedType === "build" ? subcategory : "Kamienie ozdobne"}</h2>
@@ -905,7 +935,11 @@ function MobileSticky({ cart, totals, zone, step, goToStep, scrollToCart }) {
 
 function Panel({ children }) { return <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-6">{children}</section>; }
 function SectionIntro({ eyebrow, title, text }) { return <div><p className="text-sm font-black uppercase tracking-wide text-emerald-800">{eyebrow}</p><h2 className="mt-1 text-3xl font-black tracking-tight">{title}</h2><p className="mt-2 max-w-2xl text-zinc-600">{text}</p></div>; }
-function TypeCard({ active, icon, title, text, onClick }) { return <button type="button" onClick={onClick} className={`min-h-44 rounded-3xl border p-6 text-left transition hover:-translate-y-1 hover:shadow-xl ${active ? "border-emerald-700 bg-emerald-50 shadow-lg shadow-emerald-900/10" : "border-stone-200 bg-stone-50"}`}><div className="text-emerald-800">{icon}</div><div className="mt-4 text-2xl font-black">{title}</div><p className="mt-2 text-zinc-600">{text}</p>{active && <div className="mt-4 inline-flex rounded-full bg-emerald-800 px-4 py-2 text-sm font-black text-white">Wybrane</div>}</button>; }
+function TypeCard({ active, icon, title, text, onClick }) { return <button type="button" onClick={onClick} className={`min-h-44 rounded-3xl border p-6 text-left transition hover:-translate-y-1 hover:shadow-xl ${active ? "border-emerald-700 bg-emerald-50 shadow-lg shadow-emerald-900/10" : "border-stone-200 bg-stone-50"}`}><div className="text-emerald-800">{icon}</div><div className="mt-4 text-2xl font-black">{title}</div><p className="mt-2 text-zinc-600">{text}</p>{active && (
+  <div className="mt-4 inline-flex rounded-full bg-emerald-800 px-4 py-2 text-sm font-black text-white">
+    Pokaż produkty
+  </div>
+)}</button>; }
 function StepActions({ onBack, onNext, backLabel, nextLabel }) { return <div className="mt-6 flex justify-between gap-3"><button type="button" onClick={onBack} disabled={!onBack} className={`inline-flex min-h-14 items-center gap-2 rounded-2xl px-5 font-black ${onBack ? "bg-stone-100 text-zinc-700" : "invisible"}`}><ArrowLeft size={18} /> {backLabel || "Wstecz"}</button><button type="button" onClick={onNext} className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-emerald-800 px-6 font-black text-white shadow-lg shadow-emerald-900/15">{nextLabel || "Dalej"} <ArrowRight size={18} /></button></div>; }
 function Input({ error, className = "", ...props }) { return <input {...props} className={`min-h-14 w-full rounded-2xl border bg-white p-4 outline-none transition focus:border-emerald-700 focus:ring-4 focus:ring-emerald-100 ${error ? "border-red-500 bg-red-50" : "border-stone-200"} ${className}`} />; }
 function DateButton({ active, children, ...props }) { return <button type="button" {...props} className={`min-h-12 rounded-2xl px-4 font-black transition ${active ? "bg-emerald-800 text-white" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>{children}</button>; }
