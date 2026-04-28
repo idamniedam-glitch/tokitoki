@@ -378,30 +378,7 @@ export default function TokitokiPrototype() {
     showToast("Produkt usunięty z koszyka");
   }
 
-  function scrollToCart() {
-  const el = document.getElementById("koszyk");
-  if (!el) return;
-
-  const y = el.getBoundingClientRect().top + window.scrollY - 120;
-
-  window.scrollTo({
-    top: Math.max(0, y),
-    behavior: "smooth",
-  });
-}
-
-function goToMobileCart() {
-  const el = document.getElementById("koszyk");
-  if (!el) return;
-
-  const y = el.getBoundingClientRect().top + window.scrollY - 120;
-
-  window.scrollTo({
-    top: Math.max(0, y),
-    behavior: "smooth",
-  });
-}
-function goToMobileCart() {
+  function goToMobileCart() {
   const el = document.getElementById("koszyk");
   if (!el) return;
 
