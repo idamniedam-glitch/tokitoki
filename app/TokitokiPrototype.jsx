@@ -383,9 +383,15 @@ export default function TokitokiPrototype() {
   }
   function scrollToProductsTop() {
   setTimeout(() => {
-    document.getElementById("produkty-lista")?.scrollIntoView({
+    const el = document.getElementById("produkty-lista");
+    if (!el) return;
+
+    const yOffset = -160;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({
+      top: y,
       behavior: "smooth",
-      block: "start",
     });
   }, 80);
 }
