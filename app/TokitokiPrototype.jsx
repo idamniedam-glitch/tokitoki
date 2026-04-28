@@ -284,7 +284,6 @@ export default function TokitokiPrototype() {
   const [toast, setToast] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [orderSent, setOrderSent] = useState(false);
-  const [openMobileCart, setOpenMobileCart] = useState(false);
   const phoneDigits = form.phone.replace(/\D/g, "");
   const isPhoneValid = phoneDigits.length === 9;
   const isAddressValid = form.address.trim().length >= 5;
@@ -383,30 +382,17 @@ export default function TokitokiPrototype() {
     document.getElementById("koszyk")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   function goToMobileCart() {
-  setStep(2);
-  setOpenMobileCart(true);
+  const el = document.getElementById("koszyk");
+  if (!el) return;
+
+  const y = el.getBoundingClientRect().top + window.scrollY - 110;
+
+  window.scrollTo({
+    top: Math.max(0, y),
+    behavior: "smooth",
+  });
 }
 
-useEffect(() => {
-  if (!openMobileCart || step !== 2) return;
-
-  const timer = setTimeout(() => {
-    const el = document.getElementById("koszyk");
-    if (!el) return;
-
-    const yOffset = -110;
-    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
-
-    setOpenMobileCart(false);
-  }, 250);
-
-  return () => clearTimeout(timer);
-}, [openMobileCart, step]);
 
   function scrollToProductsTop() {
   setTimeout(() => {
