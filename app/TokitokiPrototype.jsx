@@ -533,27 +533,35 @@ export default function TokitokiPrototype() {
 
             {step === 2 && (
               <section className="space-y-6">
-                {selectedType === "build" && (
-                  <Panel>
-                    <div className="sticky top-20 z-30 rounded-[2rem] bg-white/95 p-4 shadow-sm ring-1 ring-stone-200 backdrop-blur">
-  <SectionIntro
-    eyebrow="Krok 2"
-    title="Wybierz podkategorię"
-    text="Szybki filtr pomaga szybciej znaleźć właściwy materiał."
-  />
+               {selectedType === "build" && (
+  <div className="sticky top-20 z-30 rounded-[2rem] bg-white/95 p-4 shadow-sm ring-1 ring-stone-200 backdrop-blur">
+    <SectionIntro
+      eyebrow="Krok 2"
+      title="Wybierz podkategorię"
+      text="Szybki filtr pomaga szybciej znaleźć właściwy materiał."
+    />
 
-                  <div className="mt-4 flex gap-3 overflow-x-auto pb-1"></div>
-                      {subcategories.map((s) => (
-                        <button key={s} type="button" onClick={() => {
-  setSubcategory(s);
-  scrollToProductsTop();
-}} className={`min-h-12 shrink-0 rounded-2xl px-5 font-black transition ${subcategory === s ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15" : "bg-stone-100 text-zinc-700 hover:bg-stone-200"}`}>
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+    <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+      {subcategories.map((s) => (
+        <button
+          key={s}
+          type="button"
+          onClick={() => {
+            setSubcategory(s);
+            scrollToProductsTop();
+          }}
+          className={`min-h-12 shrink-0 rounded-2xl px-5 font-black transition ${
+            subcategory === s
+              ? "bg-emerald-800 text-white shadow-lg shadow-emerald-900/15"
+              : "bg-stone-100 text-zinc-700 hover:bg-stone-200"
+          }`}
+        >
+          {s}
+        </button>
+      ))}
+    </div>
+  </div>
+)}
 
                 <div id="produkty-lista" className="scroll-mt-28 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
