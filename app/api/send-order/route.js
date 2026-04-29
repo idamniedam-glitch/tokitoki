@@ -1,8 +1,64 @@
 import { Resend } from "resend";
-import SMSAPI from "smsapi";
+
+function cleanPhone(phone) {
+  const digits = String(phone || "").replace(/\D/g, "");
+
+  if (digits.startsWith("48") && digits.length === 11) {
+    return digits;
+  }
+
+  if (digits.length === 9) {
+    return `48${digits}`;
+  }
+
+  return digits;
+}
+
+async function sendSms({ to, message }) {
+  if (!process.env.SMSAPI_TOKEN) {
+    console.error("BRAK SMSAPI_TOKEN");
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.append("to", cleanPhone(to));
+  params.append("message", message);
+  params.append("format", "json");
+
+  if (process.env.SMSAPI_FROM) {
+    params.append("from", process.env.SMSAPI_FROM);
+  }
+
+  const res = await fetch("https://api.smsapi.pl/sms.do", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.SMSAPI_TOKEN}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params,
+  });
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`SMSAPI ${res.status}: ${text}`);
+  }
+
+  console.log("SMSAPI OK:", text);
+}
 
 export async function POST(req) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      console.error("BRAK RESEND_API_KEY");
+      return Response.json({ success: false }, { status: 500 });
+    }
+
+    if (!process.env.OWNER_EMAIL) {
+      console.error("BRAK OWNER_EMAIL");
+      return Response.json({ success: false }, { status: 500 });
+    }
+
     const body = await req.json();
 
     const {
@@ -18,12 +74,6 @@ export async function POST(req) {
       totalGross,
       cart,
     } = body;
-
-    /*
-     |--------------------------------------------------------------------------
-     | EMAIL
-     |--------------------------------------------------------------------------
-     */
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -62,64 +112,26 @@ export async function POST(req) {
       `,
     });
 
-    /*
-     |--------------------------------------------------------------------------
-     | SMS API
-     |--------------------------------------------------------------------------
-     */
-
     try {
-      const smsapi = new SMSAPI({
-        accessToken: process.env.SMSAPI_TOKEN,
-      });
+      if (process.env.OWNER_PHONE) {
+        await sendSms({
+          to: process.env.OWNER_PHONE,
+          message: `NOWE ZAMOWIENIE TOKITOKI. Sprawdz maila. Tel klienta: ${phone}`,
+        });
+      }
 
-      /*
-       |--------------------------------------------------------------------------
-       | SMS DO CIEBIE
-       |--------------------------------------------------------------------------
-       */
-
-      await smsapi.sms.sendSms({
-        to: process.env.OWNER_PHONE,
-        from: process.env.SMSAPI_FROM,
-        message: `NOWE ZAMÓWIENIE TOKITOKI
-
-${name || "Klient"}
-${phone}
-
-${cart}
-
-${totalGross}`,
-      });
-
-      /*
-       |--------------------------------------------------------------------------
-       | SMS DO KLIENTA
-       |--------------------------------------------------------------------------
-       */
-
-      await smsapi.sms.sendSms({
-        to: `48${phone.replace(/\D/g, "")}`,
-        from: process.env.SMSAPI_FROM,
-        message: `Dziękujemy za złożenie zamówienia w TOKITOKI. Skontaktujemy się wkrótce w celu potwierdzenia dostępności materiału i terminu dostawy.`,
+      await sendSms({
+        to: phone,
+        message:
+          "Dziekujemy za zlozenie zamowienia w TOKITOKI. Sprawdzimy dostepnosc materialu i mozliwosc dostawy, a nastepnie oddzwonimy z potwierdzeniem.",
       });
     } catch (smsError) {
       console.error("SMSAPI ERROR:", smsError);
     }
 
-    return Response.json({
-      success: true,
-    });
+    return Response.json({ success: true });
   } catch (error) {
     console.error("SEND ORDER ERROR:", error);
-
-    return Response.json(
-      {
-        success: false,
-      },
-      {
-        status: 500,
-      }
-    );
+    return Response.json({ success: false }, { status: 500 });
   }
 }
