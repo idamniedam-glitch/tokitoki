@@ -453,7 +453,7 @@ export default function TokitokiPrototype() {
   }
 
   async function sendOrder() {
-    if (isSending) return;
+    if (isSending || orderSent) return;
     setIsSending(true);
 
     try {
@@ -488,7 +488,6 @@ export default function TokitokiPrototype() {
 
       if (data.success) {
         setOrderSent(true);
-        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         alert("Błąd wysyłki. Spróbuj ponownie albo zadzwoń.");
       }
@@ -893,10 +892,16 @@ export default function TokitokiPrototype() {
                     </button>
                   </div>
                   <button
+                    type="button"
                     onClick={sendOrder}
-                    className="mt-5 w-full rounded-2xl bg-emerald-800 px-6 py-5 text-lg font-black text-white shadow-xl shadow-emerald-900/20 transition hover:bg-emerald-900"
+                    disabled={isSending || orderSent}
+                    className="mt-5 w-full rounded-2xl bg-emerald-800 px-6 py-5 text-lg font-black text-white shadow-xl shadow-emerald-900/20 transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:bg-zinc-400 disabled:shadow-none"
                   >
-                    Wyślij zamówienie do potwierdzenia
+                    {isSending
+                      ? "Wysyłanie zamówienia..."
+                      : orderSent
+                      ? "Zamówienie wysłane"
+                      : "Wyślij zamówienie do potwierdzenia"}
                   </button>
                   <p className="mt-3 text-xs leading-5 text-zinc-500">
                     Zamówienie zostanie przyjęte do weryfikacji. Nie jest to jeszcze płatna rezerwacja.
@@ -935,6 +940,7 @@ export default function TokitokiPrototype() {
 
       <ContactSection whatsappText={whatsappText} />
       <Toast message={toast} />
+      <SuccessModal open={orderSent} />
       <MobileSticky
         cart={cart}
         totals={totals}
@@ -1498,6 +1504,40 @@ function CartBox({ id = "koszyk", cart, totals, zone, removeFromCart, updateCart
         </div>
       </div>
     </section>
+  );
+}
+
+function SuccessModal({ open }) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-zinc-950/60 px-4 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        className="w-full max-w-md rounded-[2rem] bg-white p-6 text-center shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-800">
+          <CheckCircle2 size={34} />
+        </div>
+
+        <h2 className="mt-5 text-2xl font-black">Zamówienie zostało wysłane</h2>
+
+        <p className="mt-3 leading-7 text-zinc-600">
+          Dziękujemy. Sprawdzimy dostępność kruszywa, możliwość dostawy i termin, a następnie oddzwonimy z potwierdzeniem.
+        </p>
+
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="mt-6 w-full rounded-2xl bg-emerald-800 px-6 py-4 font-black text-white shadow-lg shadow-emerald-900/15 transition hover:bg-emerald-900"
+        >
+          OK, wróć do strony
+        </button>
+      </motion.div>
+    </div>
   );
 }
 
