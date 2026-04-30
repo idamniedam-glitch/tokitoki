@@ -284,6 +284,7 @@ export default function TokitokiPrototype() {
   const [toast, setToast] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [orderSent, setOrderSent] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const phoneDigits = form.phone.replace(/\D/g, "");
   const isPhoneValid = phoneDigits.length === 9;
@@ -463,6 +464,8 @@ export default function TokitokiPrototype() {
       if (!isAddressValid) return alert("Podaj dokładny adres dostawy.");
       if (cart.length === 0)
         return alert("Dodaj przynajmniej jeden produkt do koszyka.");
+      if (!acceptedTerms)
+        return alert("Przed wysłaniem zaakceptuj regulamin i politykę prywatności.");
 
       const res = await fetch("/api/send-order", {
         method: "POST",
@@ -891,10 +894,24 @@ export default function TokitokiPrototype() {
                       <Pencil size={18} /> Edytuj dane
                     </button>
                   </div>
+                  <div className="mt-6 rounded-3xl border border-stone-200 bg-stone-50 p-4">
+                    <label className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-zinc-700">
+                      <input
+                        type="checkbox"
+                        checked={acceptedTerms}
+                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                        className="mt-1 h-5 w-5 shrink-0 rounded border-stone-300 accent-emerald-800"
+                      />
+                      <span>
+                        Akceptuję regulamin zamówień i zapoznałem/am się z polityką prywatności. Wiem, że wysłanie formularza nie oznacza jeszcze płatnej rezerwacji — zamówienie zostanie potwierdzone telefonicznie.
+                      </span>
+                    </label>
+                  </div>
+
                   <button
                     type="button"
                     onClick={sendOrder}
-                    disabled={isSending || orderSent}
+                    disabled={isSending || orderSent || !acceptedTerms}
                     className="mt-5 w-full rounded-2xl bg-emerald-800 px-6 py-5 text-lg font-black text-white shadow-xl shadow-emerald-900/20 transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:bg-zinc-400 disabled:shadow-none"
                   >
                     {isSending
@@ -938,7 +955,9 @@ export default function TokitokiPrototype() {
         </div>
       </section>
 
+      <LegalSections />
       <ContactSection whatsappText={whatsappText} />
+      <SiteFooter />
       <Toast message={toast} />
       <SuccessModal open={orderSent} />
       <MobileSticky
@@ -1562,6 +1581,56 @@ function Toast({ message }) {
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function LegalSections() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <details id="regulamin" className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200">
+          <summary className="cursor-pointer text-2xl font-black">Regulamin zamówień</summary>
+          <div className="mt-5 space-y-4 text-sm leading-7 text-zinc-600">
+            <p><b>Sprzedawca / usługodawca:</b> Kruszywa Polska Sp. z o.o., ul. Porąbki 13, 35-317 Rzeszów, NIP 813 38 40 157, e-mail: biuro@kruszywapolska.pl.</p>
+            <p>Strona umożliwia złożenie zapytania / zamówienia na kruszywo z dostawą. Wysłanie formularza nie oznacza automatycznego zawarcia płatnej umowy ani rezerwacji materiału.</p>
+            <p>Po otrzymaniu zamówienia kontaktujemy się telefonicznie w celu potwierdzenia dostępności materiału, ceny, kosztu transportu, terminu oraz możliwości realizacji dostawy.</p>
+            <p>Ceny prezentowane na stronie są cenami netto i brutto, o ile wskazano inaczej. W przypadku dostawy poza Rzeszów koszt transportu może wymagać indywidualnej wyceny.</p>
+            <p>Klient powinien podać poprawny numer telefonu, dokładny adres dostawy oraz informacje o utrudnieniach, takich jak wąski wjazd, brak możliwości zawracania lub ograniczenia tonażowe.</p>
+            <p>Reklamacje dotyczące zamówień można zgłaszać telefonicznie lub mailowo: biuro@kruszywapolska.pl.</p>
+          </div>
+        </details>
+
+        <details id="polityka-prywatnosci" className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200">
+          <summary className="cursor-pointer text-2xl font-black">Polityka prywatności</summary>
+          <div className="mt-5 space-y-4 text-sm leading-7 text-zinc-600">
+            <p><b>Administrator danych:</b> Kruszywa Polska Sp. z o.o., ul. Porąbki 13, 35-317 Rzeszów, NIP 813 38 40 157, e-mail: biuro@kruszywapolska.pl.</p>
+            <p>Dane z formularza zamówienia, takie jak imię, telefon, adres dostawy, termin i uwagi, przetwarzamy w celu obsługi zapytania, kontaktu z klientem i realizacji dostawy.</p>
+            <p>Podanie danych jest dobrowolne, ale niezbędne do przygotowania i potwierdzenia zamówienia.</p>
+            <p>Dane mogą być przechowywane przez czas potrzebny do obsługi zamówienia oraz przez okres wymagany przepisami księgowymi i podatkowymi, jeśli dojdzie do realizacji usługi.</p>
+            <p>Klient ma prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania oraz wniesienia sprzeciwu w przypadkach przewidzianych prawem.</p>
+            <p>W sprawach dotyczących danych osobowych można skontaktować się mailowo: biuro@kruszywapolska.pl.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="border-t border-stone-200 bg-white">
+      <div className="mx-auto grid max-w-7xl gap-4 px-4 py-6 text-sm text-zinc-600 lg:grid-cols-[1fr_auto] lg:px-8">
+        <div>
+          <div className="font-black text-zinc-950">TOKITOKI — kruszywa z dostawą</div>
+          <div className="mt-1">Kruszywa Polska Sp. z o.o. · NIP: 813 38 40 157 · Rzeszów i okolice</div>
+        </div>
+        <div className="flex flex-wrap gap-4 font-bold">
+          <a href="#regulamin" className="hover:text-emerald-800">Regulamin</a>
+          <a href="#polityka-prywatnosci" className="hover:text-emerald-800">Polityka prywatności</a>
+          <a href={`tel:${PHONE}`} className="hover:text-emerald-800">{PHONE_LABEL}</a>
+        </div>
+      </div>
+    </footer>
   );
 }
 
