@@ -1693,6 +1693,22 @@ function CookieBanner() {
     setVisible(false);
   }
 
+  function openCookiePolicy(e) {
+    e.preventDefault();
+
+    const section = document.getElementById("polityka-cookies");
+    if (!section) return;
+
+    section.setAttribute("open", "true");
+
+    setTimeout(() => {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 50);
+  }
+
   if (!visible) return null;
 
   return (
@@ -1701,9 +1717,13 @@ function CookieBanner() {
         <div className="text-sm leading-6 text-zinc-600">
           <b className="text-zinc-950">Pliki cookies</b>
           <br />
-          Używamy cookies technicznych do działania strony. Opcjonalne cookies analityczne
-          uruchomimy tylko po Twojej zgodzie.
-          <a href="#polityka-cookies" className="ml-1 font-bold text-emerald-800">
+          Używamy cookies technicznych do działania strony. Opcjonalne cookies
+          analityczne uruchomimy tylko po Twojej zgodzie.
+          <a
+            href="#polityka-cookies"
+            onClick={openCookiePolicy}
+            className="ml-1 font-bold text-emerald-800"
+          >
             Polityka cookies
           </a>
         </div>
