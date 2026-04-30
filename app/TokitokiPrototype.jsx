@@ -1611,51 +1611,17 @@ function LegalSections() {
             <p>Klient ma prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania oraz wniesienia sprzeciwu w przypadkach przewidzianych prawem.</p>
             <p>W sprawach dotyczących danych osobowych można skontaktować się mailowo: biuro@kruszywapolska.pl.</p>
           </div>
-                </details>
+        </details>
 
-        <details
-          id="polityka-cookies"
-          className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200 lg:col-span-2"
-        >
-          <summary className="cursor-pointer text-2xl font-black">
-            Polityka cookies
-          </summary>
-
+        <details id="polityka-cookies" className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-stone-200 lg:col-span-2">
+          <summary className="cursor-pointer text-2xl font-black">Polityka cookies</summary>
           <div className="mt-5 space-y-4 text-sm leading-7 text-zinc-600">
-            <p>
-              Strona tokitoki.pl może wykorzystywać pliki cookies w celu
-              zapewnienia prawidłowego działania strony, zapamiętania decyzji
-              użytkownika dotyczącej cookies oraz — po wyrażeniu zgody — do
-              celów analitycznych.
-            </p>
-
-            <p>
-              Cookies to niewielkie pliki tekstowe zapisywane na urządzeniu
-              użytkownika podczas korzystania ze strony internetowej.
-            </p>
-
-            <p>
-              Na stronie mogą być wykorzystywane cookies techniczne, niezbędne
-              do działania strony, oraz opcjonalne cookies analityczne, jeśli
-              zostaną wdrożone narzędzia analityczne, takie jak Google Analytics.
-            </p>
-
-            <p>
-              Użytkownik może zaakceptować lub odrzucić opcjonalne cookies z
-              poziomu komunikatu wyświetlanego na stronie. Decyzja jest zapisywana
-              w pamięci przeglądarki.
-            </p>
-
-            <p>
-              Użytkownik może również w każdej chwili usunąć cookies lub zmienić
-              ich obsługę w ustawieniach swojej przeglądarki internetowej.
-            </p>
-
-            <p>
-              <b>Administrator:</b> Kruszywa Polska Sp. z o.o., ul. Porąbki 13,
-              35-317 Rzeszów, NIP 813 38 40 157, e-mail:
-              biuro@kruszywapolska.pl.
-            </p>
+            <p>Strona tokitoki.pl może wykorzystywać pliki cookies w celu zapewnienia prawidłowego działania strony, zapamiętania decyzji użytkownika dotyczącej cookies oraz — po wyrażeniu zgody — do celów analitycznych.</p>
+            <p>Cookies to niewielkie pliki tekstowe zapisywane na urządzeniu użytkownika podczas korzystania ze strony internetowej.</p>
+            <p>Na stronie mogą być wykorzystywane cookies techniczne, niezbędne do działania strony, oraz opcjonalne cookies analityczne, jeśli zostaną wdrożone narzędzia analityczne, takie jak Google Analytics.</p>
+            <p>Użytkownik może zaakceptować lub odrzucić opcjonalne cookies z poziomu komunikatu wyświetlanego na stronie. Decyzja jest zapisywana w pamięci przeglądarki.</p>
+            <p>Użytkownik może również w każdej chwili usunąć cookies lub zmienić ich obsługę w ustawieniach swojej przeglądarki internetowej.</p>
+            <p><b>Administrator:</b> Kruszywa Polska Sp. z o.o., ul. Porąbki 13, 35-317 Rzeszów, NIP 813 38 40 157, e-mail: biuro@kruszywapolska.pl.</p>
           </div>
         </details>
       </div>
