@@ -1640,7 +1640,19 @@ function SiteFooter() {
         <div className="flex flex-wrap gap-4 font-bold">
           <a href="#regulamin" className="hover:text-emerald-800">Regulamin</a>
           <a href="#polityka-prywatnosci" className="hover:text-emerald-800">Polityka prywatności</a>
-          <a href="#polityka-cookies" className="hover:text-emerald-800">Polityka cookies</a>
+          <a
+  href="#polityka-cookies"
+  onClick={(e) => {
+    e.preventDefault();
+    const section = document.getElementById("polityka-cookies");
+    if (!section) return;
+    section.setAttribute("open", "true");
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }}
+  className="hover:text-emerald-800"
+>
+  Polityka cookies
+</a>
           <a href={`tel:${PHONE}`} className="hover:text-emerald-800">{PHONE_LABEL}</a>
         </div>
       </div>
