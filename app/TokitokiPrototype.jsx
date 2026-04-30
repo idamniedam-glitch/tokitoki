@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ShoppingCart,
   Phone,
@@ -968,7 +968,6 @@ export default function TokitokiPrototype() {
         goToStep={goToStep}
         goToMobileCart={goToMobileCart}
       />
-      <CookieBanner />
     </div>
   );
 }
@@ -1640,19 +1639,6 @@ function SiteFooter() {
         <div className="flex flex-wrap gap-4 font-bold">
           <a href="#regulamin" className="hover:text-emerald-800">Regulamin</a>
           <a href="#polityka-prywatnosci" className="hover:text-emerald-800">Polityka prywatności</a>
-          <a
-  href="#polityka-cookies"
-  onClick={(e) => {
-    e.preventDefault();
-    const section = document.getElementById("polityka-cookies");
-    if (!section) return;
-    section.setAttribute("open", "true");
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
-  }}
-  className="hover:text-emerald-800"
->
-  Polityka cookies
-</a>
           <a href={`tel:${PHONE}`} className="hover:text-emerald-800">{PHONE_LABEL}</a>
         </div>
       </div>
@@ -1684,81 +1670,6 @@ function ContactSection({ whatsappText }) {
         </div>
       </div>
     </section>
-  );
-}
-
-function CookieBanner() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const consent = window.localStorage.getItem("tokitoki_cookie_consent");
-    if (!consent) setVisible(true);
-  }, []);
-
-  function acceptCookies() {
-    window.localStorage.setItem("tokitoki_cookie_consent", "accepted");
-    setVisible(false);
-  }
-
-  function rejectCookies() {
-    window.localStorage.setItem("tokitoki_cookie_consent", "rejected");
-    setVisible(false);
-  }
-
-  function openCookiePolicy(e) {
-    e.preventDefault();
-
-    const section = document.getElementById("polityka-cookies");
-    if (!section) return;
-
-    section.setAttribute("open", "true");
-
-    setTimeout(() => {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 50);
-  }
-
-  if (!visible) return null;
-
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-[90] border-t border-stone-200 bg-white p-4 shadow-2xl">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="text-sm leading-6 text-zinc-600">
-          <b className="text-zinc-950">Pliki cookies</b>
-          <br />
-          Używamy cookies technicznych do działania strony. Opcjonalne cookies
-          analityczne uruchomimy tylko po Twojej zgodzie.
-          <a
-            href="#polityka-cookies"
-            onClick={openCookiePolicy}
-            className="ml-1 font-bold text-emerald-800"
-          >
-            Polityka cookies
-          </a>
-        </div>
-
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <button
-            type="button"
-            onClick={rejectCookies}
-            className="min-h-12 rounded-2xl bg-stone-100 px-5 font-black text-zinc-700"
-          >
-            Odrzuć
-          </button>
-
-          <button
-            type="button"
-            onClick={acceptCookies}
-            className="min-h-12 rounded-2xl bg-emerald-800 px-5 font-black text-white"
-          >
-            Akceptuję
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 
