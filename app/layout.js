@@ -24,6 +24,12 @@ export const metadata = {
     "pospółka Rzeszów",
     "transport kruszyw Rzeszów",
   ],
+
+  robots: {
+    index: false,
+    follow: false,
+  },
+
   openGraph: {
     title: "TOKITOKI – kruszywa z dostawą w Rzeszowie",
     description:
