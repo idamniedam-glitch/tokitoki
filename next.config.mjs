@@ -18,7 +18,12 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/:slug",
+        source: "/kruszywa/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/oferta/:path*",
         destination: "/",
         permanent: true,
       },
