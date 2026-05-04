@@ -1,6 +1,7 @@
 export const products = [
   {
     id: "piasek-do-piaskownic",
+    active: false,
     type: "build",
     subcategory: "Piasek",
     name: "Piasek do piaskownic",
