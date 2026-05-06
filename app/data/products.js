@@ -175,7 +175,7 @@ export const products = [
     description:
       "Do ogrodów, rabat, opasek wokół domu, dekoracji i nowoczesnych aranżacji terenu.",
     image:
-      "https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=900&auto=format&fit=crop",
+      "",
   },
   {
     id: "otoczak-szary",
@@ -187,6 +187,6 @@ export const products = [
     description:
       "Naturalny kamień ozdobny do ogrodu, rabat, oczek wodnych i opasek przy elewacji.",
     image:
-      "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=900&auto=format&fit=crop",
+      "",
   },
 ];
